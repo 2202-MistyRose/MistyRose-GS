@@ -1,15 +1,12 @@
-import React from 'react'
-import {connect} from 'react-redux'
+import React from "react";
+import { useSelector } from "react-redux";
 
-/**
- * COMPONENT
- */
-export const Home = props => {
-  const {username} = props
-
+export const Home = () => {
+  const { user } = useSelector((state) => state.auth);
+  console.log(user);
   return (
     <div>
-      <h3>Welcome, {username}</h3>
+      <h3>Welcome, {user}</h3>
     </div>
   )
 }
@@ -24,4 +21,4 @@ const mapState = state => {
   }
 }
 
-export default connect(mapState)(Home)
+export default Home;
