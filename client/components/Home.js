@@ -1,11 +1,7 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { connect } from 'react-redux';
+import React from "react";
+import { useSelector } from "react-redux";
 
-/**
- * COMPONENT
- */
-export const Home = (props) => {
+export const Home = () => {
   const { user } = useSelector((state) => state.auth);
   console.log(user);
   return (
