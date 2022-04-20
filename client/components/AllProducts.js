@@ -4,12 +4,13 @@ import { getProducts } from '../store/allProducts';
 
 export default function AllProducts() {
   const dispatch = useDispatch();
-  const products = useSelector(state => state.products.value); // add value here bc its in obj, check reducer
+  const {products} = useSelector((state) => state.products);
 
   useEffect(() => {
     dispatch(getProducts());
   }, []);
 
+  console.log(products)
   // basic jsx, will edit with materialui
   return (
     <div>
