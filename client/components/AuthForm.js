@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { authenticate, newUserThunk } from '../store';
 
@@ -6,8 +6,13 @@ import { authenticate, newUserThunk } from '../store';
  * COMPONENT
  */
 const AuthForm = (props) => {
-  console.log(props);
+  console.log(props, 'props from user form');
   const { name, displayName, email, handleSubmit, error } = props;
+  const [userInfo, setUserInfo] = useState({
+    name: '',
+    email: '',
+    password: '',
+  });
 
   return (
     <div>
@@ -26,7 +31,6 @@ const AuthForm = (props) => {
             <input name="email" type="text" />
           </div>
         )}
-
         <div>
           <label htmlFor="password">
             <small>Password</small>
@@ -64,7 +68,10 @@ const mapSignup = (state) => {
     error: state.auth.error,
   };
 };
-
+// if (formName === 'Sign Up') {
+//   const email = evt.target.email.value;
+//   dispatch(newUserThunk({ username, password, email }));
+// }
 const mapDispatch = (dispatch) => {
   return {
     handleSubmit(evt) {
@@ -72,16 +79,23 @@ const mapDispatch = (dispatch) => {
       const formName = evt.target.name;
       const username = evt.target.username.value;
       const password = evt.target.password.value;
-      // add new userthunk to handle new user
-      if (formName === 'Sign Up') {
-        const email = evt.target.email.value;
-        dispatch(newUserThunk({ username, password, email }));
-      } else {
-        dispatch(authenticate(username, password, formName));
-      }
+      dispatch(authenticate(username, password, formName));
+    },
+  };
+};
+
+const mapDispatchSignUp = (dispatch) => {
+  return {
+    handleSubmit(evt) {
+      evt.preventDefault();
+      const formName = evt.target.name;
+      const username = evt.target.username.value;
+      const password = evt.target.password.value;
+      const email = evt.target.email.value;
+      dispatch(newUserThunk(username, password, email));
     },
   };
 };
 
 export const Login = connect(mapLogin, mapDispatch)(AuthForm);
-export const Signup = connect(mapSignup, mapDispatch)(AuthForm);
+export const Signup = connect(mapSignup, mapDispatchSignUp)(AuthForm);
