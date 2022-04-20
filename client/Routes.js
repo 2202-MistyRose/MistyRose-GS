@@ -4,6 +4,7 @@ import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
 import AuthForm from './components/AuthForm';
 import Home from './components/Home';
 import { me } from './store';
+import AllProducts from './components/AllProducts'
 
 /**
  * COMPONENT
@@ -18,6 +19,7 @@ function Routes() {
       {success ? (
         <Switch>
           <Route path="/home" component={Home} />
+          <Route path="/products" component={AllProducts} />
           <Redirect to="/home" />
         </Switch>
       ) : (

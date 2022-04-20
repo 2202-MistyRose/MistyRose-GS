@@ -8,7 +8,17 @@ export const Home = () => {
     <div>
       <h3>Welcome, {user}</h3>
     </div>
-  );
-};
+  )
+}
+
+/**
+ * CONTAINER
+ */
+
+const mapState = state => {
+  return {
+    username: state.auth.username
+  }
+}
 
 export default Home;
