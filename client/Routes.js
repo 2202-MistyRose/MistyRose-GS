@@ -32,7 +32,6 @@ function Routes() {
           <Route path="/" exact component={Login} />
           <Route path="/login" component={Login} />
           <Route path="/signup" component={SignUp} />
-          <Route path="/products" component={AllProducts} />
         </Switch>
       )}
     </div>
