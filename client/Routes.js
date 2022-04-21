@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { withRouter, Route, Switch, Redirect } from "react-router-dom";
 import SignUp from "./components/SignUp";
 import Login from "./components/Login";
 import Home from "./components/Home";
-import { me } from "./store";
+import { me } from "./store/auth.slice";
 import AllProducts from "./components/AllProducts";
 
 /**
@@ -12,11 +12,16 @@ import AllProducts from "./components/AllProducts";
  */
 
 function Routes() {
-  const { success } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(me());
+  }, []);
+
   return (
     <div>
-      {success ? (
+      {user ? (
         <Switch>
           <Route path="/home" component={Home} />
           <Route path="/products" component={AllProducts} />

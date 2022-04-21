@@ -16,15 +16,15 @@ export const register = createAsyncThunk(
   "auth/register",
   async (user, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post("/api/users", user);
-      return data;
+      const res = await axios.post("/api/users", user);
+      return res.data;
     } catch (err) {
       return rejectWithValue(err);
     }
   }
 );
 
-export const me = createAsyncThunk("auth/me", async () => {
+export const me = createAsyncThunk("auth/me", async ({ dispatch }) => {
   const token = window.localStorage.getItem(TOKEN);
   if (token) {
     const res = await axios.get("/auth/me", {
@@ -32,25 +32,24 @@ export const me = createAsyncThunk("auth/me", async () => {
         authorization: token,
       },
     });
-    return res.data;
+    return dispatch(res.data);
   }
 });
 
 export const authenticate = createAsyncThunk(
   "auth/authenticate",
-  async (username, password, method) =>
-    async ({ dispatch, rejectWithValue }) => {
-      try {
-        const res = await axios.post(`/auth/${method}`, {
-          username,
-          password,
-        });
-        window.localStorage.setItem(TOKEN, res.data.token);
-        dispatch(me());
-      } catch (authError) {
-        return rejectWithValue(authError);
-      }
+  async (method, { dispatch, rejectWithValue }) => {
+    try {
+      const res = await axios.post(`/auth/${method}`, {
+        username,
+        password,
+      });
+      window.localStorage.setItem(TOKEN, res.data.token);
+      dispatch(me());
+    } catch (error) {
+      return rejectWithValue(error);
     }
+  }
 );
 
 export const logout = createAsyncThunk("auth/logout", async () => {
@@ -68,6 +67,19 @@ const authSlice = createSlice({
     },
   },
   extraReducers: {
+    [register.pending]: (state) => {
+      state.loading = true;
+    },
+    [register.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.success = true;
+      state.user = action.payload;
+    },
+    [register.rejected]: (state) => {
+      state.loading = false;
+      state.error = true;
+      state.user = null;
+    },
     [authenticate.fulfilled]: (state, action) => {
       state.loading = false;
       state.success = true;
