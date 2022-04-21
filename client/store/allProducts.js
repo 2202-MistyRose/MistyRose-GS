@@ -1,60 +1,42 @@
-import axios from 'axios';
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
-export const getProducts = createAsyncThunk(
-  'products/getProducts', async () => {
+const initialState = {
+  products: [],
+  status: null,
+  error: null,
+};
+
+export const productsFetch = createAsyncThunk(
+  "products/productsFetch",
+  async (id = null, { rejectWithValue }) => {
     try {
-      console.log('in thunk')
-      const res = await axios.get('/api/products')
-      console.log('data is', res.data)
-      return res.data;
+      const response = await axios.get("/api/products");
+      return response.data;
     } catch (err) {
-        console.log(err)
+      return rejectWithValue(err.response.data);
     }
   }
-)
+);
 
-export const productsSlice = createSlice({
-  name: 'products',
-  initialState: {
-    products: [],
-    status: null
-  },
+const productsSlice = createSlice({
+  name: "products",
+  initialState,
   reducers: {},
-  extraReducer: {
-    [getProducts.pending]: (state) => {
-      state.status = 'loading'
+  // only handle action types
+  extraReducers: {
+    [productsFetch.pending]: (state) => {
+      state.status = "pending";
     },
-    [getProducts.fulfilled]: (state, {payload}) => {
-      state.products = payload;
-      state.status = 'success';
+    [productsFetch.fulfilled]: (state, action) => {
+      state.status = "success";
+      state.products = action.payload;
     },
-    [getProducts.rejected]: (state, action) => {
-      state.status = 'failed';
-    }
-  }
-})
+    [productsFetch.rejected]: (state, action) => {
+      state.status = "rejected";
+      state.error = action.payload;
+    },
+  },
+});
 
-const productsReducer = productsSlice.reducer;
-
-export default productsReducer;
-
-// const SET_PRODUCTS = "SET_PRODUCTS";
-
-// const setProducts = (products) => ({type: SET_PRODUCTS, products})
-
-// export const fetchProducts = () => {
-//   return async (dispatch) => {
-//     const {data: prods} = await axios.get('/api/products');
-//     dispatch(setProducts(prods))
-//   }
-// }
-
-// export default function(state = [], action) {
-//   switch(action.type) {
-//     case SET_PRODUCTS:
-//       return [...action.products]
-//     default:
-//       return state
-//   }
-// }
+export const productsReducer = productsSlice.reducer;

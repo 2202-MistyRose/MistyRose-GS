@@ -16,21 +16,24 @@ function Routes() {
   // useEffect(() => dispatch(me()), []);
   return (
     <div>
-      {success ? (
+      {/* {success ? ( */}
         <Switch>
           <Route path="/home" component={Home} />
           <Route path="/products" component={AllProducts} />
           <Redirect to="/home" />
         </Switch>
-      ) : (
-        <Switch>
-          <Route path="/" exact component={AuthForm} />
-          <Route path="/login" component={AuthForm} />
-          <Route path="/signup" component={AuthForm} />
-        </Switch>
-      )}
-    </div>
-  );
+      </div>
+
+);
 }
 
 export default Routes;
+
+ {/* ) : (
+         <Switch>
+           <Route path="/" exact component={AuthForm} />
+           <Route path="/login" component={AuthForm} />
+           <Route path="/signup" component={AuthForm} />
+         </Switch>
+       )}
+    </div> */}
