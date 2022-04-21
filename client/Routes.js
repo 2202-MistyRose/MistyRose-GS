@@ -7,35 +7,46 @@ import { me } from './store';
 import AllProducts from './components/AllProducts'
 import SingleProduct from './components/SingleProduct';
 
+// import React, { useEffect } from "react";
+// import { useDispatch, useSelector } from "react-redux";
+// import { Route, Switch, Redirect } from "react-router-dom";
+// import SignUp from "./components/SignUp";
+// import Login from "./components/Login";
+// import Home from "./components/Home";
+// import { me } from "./store/auth.slice";
+// import AllProducts from "./components/AllProducts";
+
 /**
  * COMPONENT
  */
 
 function Routes() {
-  const { success } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  // useEffect(() => dispatch(me()), []);
+
+  useEffect(() => {
+    dispatch(me());
+  }, []);
+
   return (
     <div>
-      {/* {success ? ( */}
+      {user ? (
         <Switch>
           <Route exact path="/home" component={Home} />
           <Route exact path="/products" component={AllProducts} />
           <Route path="/products/:productId" component={SingleProduct} />
           <Redirect to="/home" />
         </Switch>
-      </div>
-
-);
+      ) : (
+        <Switch>
+          <Route path="/" exact component={Login} />
+          <Route path="/login" component={Login} />
+          <Route path="/signup" component={SignUp} />
+          <Route path="/products" component={AllProducts} />
+        </Switch>
+      )}
+    </div>
+  );
 }
 
 export default Routes;
-
- {/* ) : (
-         <Switch>
-           <Route path="/" exact component={AuthForm} />
-           <Route path="/login" component={AuthForm} />
-           <Route path="/signup" component={AuthForm} />
-         </Switch>
-       )}
-    </div> */}

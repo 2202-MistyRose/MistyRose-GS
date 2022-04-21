@@ -26,10 +26,6 @@ const Product = db.define("product", {
     type: Sequelize.STRING,
     allowNull: false,
   },
-  rating: {
-    type: Sequelize.DECIMAL,
-    allowNull: false,
-  },
 });
 
 module.exports = Product;
