@@ -1,6 +1,17 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { productsFetch } from '../store/allProducts';
+import Typography from '@material-ui/core/Typography';
+import Container from '@material-ui/core/Container';
+import { styled } from '@material-ui/core/styles';
+import { withThemeCreator } from '@material-ui/core/node_modules/@material-ui/styles';
+
+const StyledContainer = styled(Container)({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'left',
+  justifyContent: 'center',
+});
 
 export default function AllProducts() {
   const dispatch = useDispatch();
@@ -17,13 +28,15 @@ export default function AllProducts() {
     <div>
       <h2>Shop All Products!</h2>
       <div className="all-products">
-        {products.map((product) => (
-          <div key={product.id} className="product">
-            <img src={product.imageUrl} />
-            <h3>{product.name}</h3>
-            <h6>{product.description}</h6>
-          </div>
-        ))}
+        <Container maxWidth="sm">
+          {products.map((product) => (
+            <div key={product.id} className="product">
+              <Typography variant="h3">{product.name}</Typography>
+              <img src={product.imageUrl} />
+              <Typography variant="h6">{product.description}</Typography>
+            </div>
+          ))}
+        </Container>
       </div>
     </div>
   );
