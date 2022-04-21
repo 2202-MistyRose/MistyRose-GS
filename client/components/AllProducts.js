@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getProducts } from "../store/allProducts";
+import { productsFetch } from "../store/allProducts";
 
 export default function AllProducts() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getProducts());
+    dispatch(productsFetch());
   }, []);
 
   const { products } = useSelector((state) => state.products);
