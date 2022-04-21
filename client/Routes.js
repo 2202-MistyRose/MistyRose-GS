@@ -5,6 +5,7 @@ import AuthForm from './components/AuthForm';
 import Home from './components/Home';
 import { me } from './store';
 import AllProducts from './components/AllProducts'
+import SingleProduct from './components/SingleProduct';
 
 /**
  * COMPONENT
@@ -18,8 +19,9 @@ function Routes() {
     <div>
       {/* {success ? ( */}
         <Switch>
-          <Route path="/home" component={Home} />
-          <Route path="/products" component={AllProducts} />
+          <Route exact path="/home" component={Home} />
+          <Route exact path="/products" component={AllProducts} />
+          <Route path="/products/:productId" component={SingleProduct} />
           <Redirect to="/home" />
         </Switch>
       </div>
