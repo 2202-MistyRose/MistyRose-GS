@@ -1,14 +1,22 @@
-const Product = require('../db');
+const Product = require('../db/models/Product');
+const router = require('express').Router();
 
-const getAllProducts = async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
     const products = await Product.findAll();
-    res.status(200).json(products);
-  } catch (err) {
+    res.json(products)
+  } catch(err) {
     next(err)
   }
-}
+})
 
-module.exports = getAllProducts;
+router.get('/:productId', async (req, res, next) => {
+  try {
+    const product = await Product.findByPk(req.params.productId);
+    res.json(product)
+  } catch(err) {
+    next(err)
+  }
+})
 
-// set up in index
+module.exports = router;

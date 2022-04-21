@@ -22,6 +22,11 @@ const User = db.define("user", {
       isEmail: true,
     },
   },
+  userRole: {
+    type: Sequelize.ENUM,
+    values: ["Admin", "Customer", "Guest"],
+    defaultValue: "Guest",
+  },
 });
 
 module.exports = User;
