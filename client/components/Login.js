@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { authenticate, reset } from "../store/auth.slice.js";
+import { authenticate, reset, me } from "../store/auth.slice.js";
 
 const Login = () => {
   const [userInfo, setUserInfo] = useState({
@@ -25,6 +25,10 @@ const Login = () => {
     }
     dispatch(reset());
   }, [user, success, error]);
+
+  useEffect(() => {
+    dispatch(me());
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
