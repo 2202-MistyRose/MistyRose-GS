@@ -1,8 +1,8 @@
-import axios from 'axios';
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from "axios";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-const TOKEN = 'token';
-const user = JSON.parse(localStorage.getItem('user'));
+const TOKEN = "token";
+const user = JSON.parse(localStorage.getItem("user"));
 // create initial state (redux toolkit needs a success, error, and loading state)
 const initialState = {
   user: user ? user : null,
@@ -13,21 +13,21 @@ const initialState = {
 
 // create thunk
 export const register = createAsyncThunk(
-  'auth/register',
+  "auth/register",
   async (user, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post('/api/users', user);
+      const { data } = await axios.post("/api/users", user);
       return data;
     } catch (err) {
-      return rejectWithValue(error);
+      return rejectWithValue(err);
     }
   }
 );
 
-export const me = createAsyncThunk('auth/me', async () => {
+export const me = createAsyncThunk("auth/me", async () => {
   const token = window.localStorage.getItem(TOKEN);
   if (token) {
-    const res = await axios.get('/auth/me', {
+    const res = await axios.get("/auth/me", {
       headers: {
         authorization: token,
       },
@@ -37,7 +37,7 @@ export const me = createAsyncThunk('auth/me', async () => {
 });
 
 export const authenticate = createAsyncThunk(
-  'auth/authenticate',
+  "auth/authenticate",
   async (username, password, method) =>
     async ({ dispatch, rejectWithValue }) => {
       try {
@@ -53,14 +53,20 @@ export const authenticate = createAsyncThunk(
     }
 );
 
-export const logout = createAsyncThunk('auth/logout', async () => {
+export const logout = createAsyncThunk("auth/logout", async () => {
   await window.localStorage.removeItem(TOKEN);
 });
 
 const authSlice = createSlice({
-  name: 'auth',
+  name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    reset: (state) => {
+      state.loading = false;
+      state.error = false;
+      state.success = false;
+    },
+  },
   extraReducers: {
     [authenticate.fulfilled]: (state, action) => {
       state.loading = false;
@@ -79,4 +85,5 @@ const authSlice = createSlice({
   },
 });
 
+export const { reset } = authSlice.actions;
 export const authReducer = authSlice.reducer;

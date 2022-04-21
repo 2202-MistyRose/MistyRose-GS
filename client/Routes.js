@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
-import { connect, useDispatch, useSelector } from 'react-redux';
-import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
-import AuthForm from './components/AuthForm';
-import Home from './components/Home';
-import { me } from './store';
-import AllProducts from './components/AllProducts'
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { withRouter, Route, Switch, Redirect } from "react-router-dom";
+import SignUp from "./components/SignUp";
+import Login from "./components/Login";
+import Home from "./components/Home";
+import { me } from "./store";
+import AllProducts from "./components/AllProducts";
 
 /**
  * COMPONENT
@@ -13,7 +14,6 @@ import AllProducts from './components/AllProducts'
 function Routes() {
   const { success } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  // useEffect(() => dispatch(me()), []);
   return (
     <div>
       {success ? (
@@ -24,9 +24,9 @@ function Routes() {
         </Switch>
       ) : (
         <Switch>
-          <Route path="/" exact component={AuthForm} />
-          <Route path="/login" component={AuthForm} />
-          <Route path="/signup" component={AuthForm} />
+          <Route path="/" exact component={Login} />
+          <Route path="/login" component={Login} />
+          <Route path="/signup" component={SignUp} />
         </Switch>
       )}
     </div>

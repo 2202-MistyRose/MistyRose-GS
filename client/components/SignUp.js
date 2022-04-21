@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { register } from "../store/auth.slice.js";
+import { useHistory } from "react-router-dom";
+import { register, reset } from "../store/auth.slice.js";
 
-const AuthForm = () => {
+const SignUp = () => {
   const [userInfo, setUserInfo] = useState({
     username: "",
     email: "",
@@ -13,6 +14,18 @@ const AuthForm = () => {
   const { user, success, error } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
+  const history = useHistory();
+
+  useEffect(() => {
+    if (error) {
+      console.error(error);
+    }
+    if (success || user) {
+      // redirect to home page
+      history.push("/home");
+    }
+    dispatch(reset());
+  }, [user, success, error]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -25,6 +38,8 @@ const AuthForm = () => {
   };
 
   const handleChange = (e) => {
+    // Removes sythentic event error
+    e.persist();
     setUserInfo((previousState) => ({
       ...previousState,
       [e.target.name]: e.target.value,
@@ -55,7 +70,7 @@ const AuthForm = () => {
           <input name="password" type="password" onChange={handleChange} />
         </div>
         <div>
-          <button type="submit">{name}</button>
+          <button type="submit">Sign up</button>
         </div>
         {error && error.response && <div> {error.response.data} </div>}
       </form>
@@ -63,4 +78,4 @@ const AuthForm = () => {
   );
 };
 
-export default AuthForm;
+export default SignUp;
