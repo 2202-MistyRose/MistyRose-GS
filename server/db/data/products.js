@@ -7,7 +7,6 @@ const products = [
     price: 1300,
     stock: 25,
     imageUrl: "/images/iPear13.jpg",
-    rating: 4.54,
   },
   {
     name: "iPear 11",
@@ -17,7 +16,6 @@ const products = [
     price: 800,
     stock: 35,
     imageUrl: "/images/iPear11.jpg",
-    rating: 4.7,
   },
   {
     name: "iPear 1",
@@ -27,7 +25,6 @@ const products = [
     price: 700,
     stock: 15,
     imageUrl: "/images/ipear1.jpg",
-    rating: 5,
   },
   {
     name: "Air Pear",
@@ -37,7 +34,6 @@ const products = [
     price: 500,
     stock: 125,
     imageUrl: "/images/airpear.jpg",
-    rating: 2.86,
   },
   {
     name: "Pear Mac 4",
@@ -47,7 +43,6 @@ const products = [
     price: 1500,
     stock: 25,
     imageUrl: "/images/macPear4.jpg",
-    rating: 3.98,
   },
 ];
 
