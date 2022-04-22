@@ -16,7 +16,6 @@ const Navbar = () => {
             {/* The navbar will show these links after you log in */}
             <Link to="/home">Home</Link>
             <Link to="/products">Products</Link>
-            <a href="#" onClick={handleClick}>
             <a href="#" onClick={() => dispatch(logout())}>
               Logout
             </a>
