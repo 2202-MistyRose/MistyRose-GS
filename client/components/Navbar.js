@@ -4,26 +4,21 @@ import { Link } from "react-router-dom";
 import { logout } from "../store/auth.slice";
 
 const Navbar = () => {
-  const { user } = useSelector((state) => state.auth);
-
+  const { success } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-
-  const handleClick = () => {
-    dispatch(logout());
-  };
 
   return (
     <div>
       <h1>FS-App-Template</h1>
       <nav>
-        {user ? (
+        {success ? (
           <div>
             {/* The navbar will show these links after you log in */}
             <Link to="/home">Home</Link>
-            <a href="#" onClick={handleClick}>
+            <Link to="/products">Products</Link>
+            <a href="#" onClick={() => dispatch(logout())}>
               Logout
             </a>
-            <Link to="/products">Products</Link>
           </div>
         ) : (
           <div>
@@ -37,6 +32,7 @@ const Navbar = () => {
     </div>
   );
 };
+
 export default Navbar;
 /**
  * CONTAINER

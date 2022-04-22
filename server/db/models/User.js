@@ -18,7 +18,7 @@ const User = db.define("user", {
   email: {
     type: Sequelize.STRING,
     unique: true,
-    allowNull: false,
+    allowNull: true,
     validate: {
       isEmail: true,
     },
@@ -41,6 +41,7 @@ User.prototype.correctPassword = function (candidatePwd) {
 };
 
 User.prototype.generateToken = function () {
+  console.log(jwt.sign({ id: this.id }, process.env.JWT));
   return jwt.sign({ id: this.id }, process.env.JWT);
 };
 
