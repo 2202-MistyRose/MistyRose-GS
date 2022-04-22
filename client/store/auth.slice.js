@@ -3,10 +3,9 @@ import axios from "axios";
 import history from "../history";
 
 const TOKEN = "token";
-const user = JSON.parse(localStorage.getItem("user"));
 // create initial state (redux toolkit needs a success, error, and loading state)
 const initialState = {
-  user: user ? user : null,
+  user: {},
   success: false,
   error: false,
   loading: false,
@@ -27,14 +26,16 @@ export const me = createAsyncThunk("auth/me", async () => {
 
 export const authenticate = createAsyncThunk(
   "auth/authenticate",
-  async ({ username, email, password, method }, { rejectWithValue }) => {
+  async (formInfo, { dispatch, rejectWithValue }) => {
     try {
-      const res = await axios.post(`/auth/${method}`, {
+      const { username, password, email, formName } = formInfo;
+      const res = await axios.post(`/auth/${formName}`, {
         username,
-        email,
         password,
+        email,
       });
       window.localStorage.setItem(TOKEN, res.data.token);
+      dispatch(me());
     } catch (error) {
       return rejectWithValue(error);
     }

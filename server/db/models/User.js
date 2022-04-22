@@ -1,3 +1,4 @@
+require("dotenv").config();
 const Sequelize = require("sequelize");
 const db = require("../db");
 const jwt = require("jsonwebtoken");
@@ -17,7 +18,7 @@ const User = db.define("user", {
   email: {
     type: Sequelize.STRING,
     unique: true,
-    allowNull: false,
+    allowNull: true,
     validate: {
       isEmail: true,
     },
@@ -40,6 +41,7 @@ User.prototype.correctPassword = function (candidatePwd) {
 };
 
 User.prototype.generateToken = function () {
+  console.log(jwt.sign({ id: this.id }, process.env.JWT));
   return jwt.sign({ id: this.id }, process.env.JWT);
 };
 
