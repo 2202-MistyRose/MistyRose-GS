@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { authenticate, me } from "../store/auth.slice";
+import { authenticate, me, register } from "../store/auth.slice";
 
 const AuthForm = ({ name, displayName }) => {
   const { error } = useSelector((state) => state.auth);
@@ -10,41 +10,70 @@ const AuthForm = ({ name, displayName }) => {
     dispatch(me());
   }, []);
 
-  const handleSubmit = (evt) => {
+  const handleLogin = (evt) => {
+    evt.preventDefault();
+    const formName = evt.target.name;
+    const username = evt.target.username.value;
+    const password = evt.target.password.value;
+    dispatch(authenticate({ username, password, formName }));
+  };
+
+  const handleSignup = (evt) => {
     evt.preventDefault();
     const formName = evt.target.name;
     const username = evt.target.username.value;
     const password = evt.target.password.value;
     const email = evt.target.email.value;
-    dispatch(authenticate({ username, password, email, formName }));
+    dispatch(register({ username, password, email, formName }));
   };
 
   return (
     <div>
-      <form onSubmit={handleSubmit} name={name}>
-        <div>
-          <label htmlFor="username">
-            <small>Username</small>
-          </label>
-          <input name="username" type="text" />
-        </div>
-        <div>
-          <label htmlFor="email">
-            <small>Email</small>
-          </label>
-          <input name="email" type="email" />
-        </div>
-        <div>
-          <label htmlFor="password">
-            <small>Password</small>
-          </label>
-          <input name="password" type="password" />
-        </div>
-        <div>
-          <button type="submit">{displayName}</button>
-        </div>
-        {error && error.response && <div> {error.response.data} </div>}
-      </form>
+      {displayName === "Sign Up" ? (
+        <form onSubmit={handleSignup} name={name}>
+          <div>
+            <label htmlFor="username">
+              <small>Username</small>
+            </label>
+            <input name="username" type="text" />
+          </div>
+          <div>
+            <label htmlFor="email">
+              <small>Email</small>
+            </label>
+            <input name="email" type="email" />
+          </div>
+          <div>
+            <label htmlFor="password">
+              <small>Password</small>
+            </label>
+            <input name="password" type="password" />
+          </div>
+          <div>
+            <button type="submit">{displayName}</button>
+          </div>
+          {error && error.response && <div> {error.response.data} </div>}
+        </form>
+      ) : (
+        <form onSubmit={handleLogin} name={name}>
+          <div>
+            <label htmlFor="username">
+              <small>Username</small>
+            </label>
+            <input name="username" type="text" />
+          </div>
+          <div>
+            <label htmlFor="password">
+              <small>Password</small>
+            </label>
+            <input name="password" type="password" />
+          </div>
+          <div>
+            <button type="submit">{displayName}</button>
+          </div>
+          {error && error.response && <div> {error.response.data} </div>}
+        </form>
+      )}
     </div>
   );
 };

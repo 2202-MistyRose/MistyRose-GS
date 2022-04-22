@@ -24,8 +24,8 @@ export const me = createAsyncThunk("auth/me", async () => {
   }
 });
 
-export const authenticate = createAsyncThunk(
-  "auth/authenticate",
+export const register = createAsyncThunk(
+  "auth/register",
   async (formInfo, { dispatch, rejectWithValue }) => {
     try {
       const { username, password, email, formName } = formInfo;
@@ -33,6 +33,23 @@ export const authenticate = createAsyncThunk(
         username,
         password,
         email,
+      });
+      window.localStorage.setItem(TOKEN, res.data.token);
+      dispatch(me());
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+export const authenticate = createAsyncThunk(
+  "auth/authenticate",
+  async (formInfo, { dispatch, rejectWithValue }) => {
+    try {
+      const { username, password, formName } = formInfo;
+      const res = await axios.post(`/auth/${formName}`, {
+        username,
+        password,
       });
       window.localStorage.setItem(TOKEN, res.data.token);
       dispatch(me());
@@ -50,16 +67,21 @@ export const logout = createAsyncThunk("auth/logout", async () => {
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {
-    reset: (state) => {
-      state.loading = false;
-      state.error = false;
-      state.success = false;
-    },
-  },
+  reducers: {},
   extraReducers: {
     [me.fulfilled]: (state, action) => {
       state.user = action.payload;
+    },
+    [register.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.success = true;
+      state.user = action.payload;
+    },
+    [register.pending]: (state) => {
+      state.loading = true;
+    },
+    [register.rejected]: (state) => {
+      state.error = true;
     },
     [authenticate.fulfilled]: (state, action) => {
       state.loading = false;
@@ -79,5 +101,4 @@ const authSlice = createSlice({
   },
 });
 
-export const { reset } = authSlice.actions;
 export const authReducer = authSlice.reducer;
