@@ -1,15 +1,17 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Route, Switch, Redirect } from "react-router-dom";
-import SignUp from "./components/SignUp";
-import Login from "./components/Login";
+import { Login, Signup } from "./components/AuthForm";
 import Home from "./components/Home";
-import { me } from "./store/auth.slice";
 import AllProducts from "./components/AllProducts";
 import Cart from "./components/Cart";
+import { me } from "./store/auth.slice";
 
-function Routes() {
-  const { user } = useSelector((state) => state.auth);
+/**
+ * COMPONENT
+ */
+
+const Routes = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -25,9 +27,9 @@ function Routes() {
         <Route path="/login" component={Login} />
         <Route path="/signup" component={SignUp} />
         <Redirect to="/home" />
-      </Switch>
+      </Switch>    
     </div>
   );
-}
+};
 
 export default Routes;
