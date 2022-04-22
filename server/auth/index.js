@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const {
-  models: { User },
+  models: { User, Order },
 } = require("../db");
 module.exports = router;
 
@@ -12,6 +12,7 @@ router.post("/login", async (req, res, next) => {
   }
 });
 
+// when a user signs up, create an order for them in the Order table?
 router.post("/signup", async (req, res, next) => {
   try {
     const user = await User.create(req.body);

@@ -1,30 +1,19 @@
-import axios from 'axios';
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
+import history from "../history";
 
-const TOKEN = 'token';
-const user = JSON.parse(localStorage.getItem('user'));
+const TOKEN = "token";
 // create initial state (redux toolkit needs a success, error, and loading state)
 const initialState = {
-  user: user ? user : null,
+  user: {},
   success: false,
   error: false,
   loading: false,
 };
 
 // create thunk
-export const register = createAsyncThunk(
-  'auth/register',
-  async (user, { rejectWithValue }) => {
-    try {
-      const res = await axios.post('/api/users', user);
-      return res?.data;
-    } catch (err) {
-      return rejectWithValue(err);
-    }
-  }
-);
 
-export const me = createAsyncThunk('auth/me', async ({ dispatch }) => {
+export const me = createAsyncThunk("auth/me", async () => {
   const token = window.localStorage.getItem(TOKEN);
   if (token) {
     const res = await axios.get('/auth/me', {
@@ -32,15 +21,34 @@ export const me = createAsyncThunk('auth/me', async ({ dispatch }) => {
         authorization: token,
       },
     });
-    return dispatch(res.data);
+    return res.data;
   }
 });
 
-export const authenticate = createAsyncThunk(
-  'auth/authenticate',
-  async (method, { dispatch, rejectWithValue }) => {
+export const register = createAsyncThunk(
+  "auth/register",
+  async (formInfo, { dispatch, rejectWithValue }) => {
     try {
-      const res = await axios.post(`/auth/${method}`, {
+      const { username, password, email, formName } = formInfo;
+      const res = await axios.post(`/auth/${formName}`, {
+        username,
+        password,
+        email,
+      });
+      window.localStorage.setItem(TOKEN, res.data.token);
+      dispatch(me());
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+export const authenticate = createAsyncThunk(
+  "auth/authenticate",
+  async (formInfo, { dispatch, rejectWithValue }) => {
+    try {
+      const { username, password, formName } = formInfo;
+      const res = await axios.post(`/auth/${formName}`, {
         username,
         password,
       });
@@ -52,33 +60,30 @@ export const authenticate = createAsyncThunk(
   }
 );
 
-export const logout = createAsyncThunk('auth/logout', async () => {
-  await window.localStorage.removeItem(TOKEN);
+
+export const logout = createAsyncThunk("auth/logout", async () => {
+  window.localStorage.removeItem(TOKEN);
+  history.push("/login");
 });
 
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {
-    reset: (state) => {
-      state.loading = false;
-      state.error = false;
-      state.success = false;
-    },
-  },
+  reducers: {},
   extraReducers: {
-    [register.pending]: (state) => {
-      state.loading = true;
+    [me.fulfilled]: (state, action) => {
+      state.user = action.payload;
     },
     [register.fulfilled]: (state, action) => {
       state.loading = false;
       state.success = true;
       state.user = action.payload;
     },
+    [register.pending]: (state) => {
+      state.loading = true;
+    },
     [register.rejected]: (state) => {
-      state.loading = false;
       state.error = true;
-      state.user = null;
     },
     [authenticate.fulfilled]: (state, action) => {
       state.loading = false;
@@ -92,10 +97,10 @@ const authSlice = createSlice({
       state.error = true;
     },
     [logout.fulfilled]: (state) => {
+      state.success = false;
       state.user = null;
     },
   },
 });
 
-export const { reset } = authSlice.actions;
 export const authReducer = authSlice.reducer;

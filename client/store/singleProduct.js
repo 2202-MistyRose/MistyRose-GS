@@ -36,7 +36,4 @@ export const getSingleProduct = createAsyncThunk('product/getProduct', async (id
   }
 })
 
-// const singleProductReducer = singleProductSlice.reducer;
-// export default singleProductReducer;
-
 export const singleProductReducer = singleProductSlice.reducer;
