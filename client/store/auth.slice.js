@@ -1,5 +1,6 @@
-import axios from "axios";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
+import history from "../history";
 
 const TOKEN = "token";
 const user = JSON.parse(localStorage.getItem("user"));
@@ -12,18 +13,6 @@ const initialState = {
 };
 
 // create thunk
-export const register = createAsyncThunk(
-  "auth/register",
-  async (user, { rejectWithValue }) => {
-    try {
-      const res = await axios.post("/api/users", user);
-      return res.data;
-    } catch (err) {
-      return rejectWithValue(err);
-    }
-  }
-);
-
 export const me = createAsyncThunk("auth/me", async () => {
   const token = window.localStorage.getItem(TOKEN);
   if (token) {
@@ -38,10 +27,11 @@ export const me = createAsyncThunk("auth/me", async () => {
 
 export const authenticate = createAsyncThunk(
   "auth/authenticate",
-  async ({ username, password }, { rejectWithValue }) => {
+  async ({ username, email, password, method }, { rejectWithValue }) => {
     try {
-      const res = await axios.post("/auth/login", {
+      const res = await axios.post(`/auth/${method}`, {
         username,
+        email,
         password,
       });
       window.localStorage.setItem(TOKEN, res.data.token);
@@ -52,7 +42,8 @@ export const authenticate = createAsyncThunk(
 );
 
 export const logout = createAsyncThunk("auth/logout", async () => {
-  await window.localStorage.removeItem(TOKEN);
+  window.localStorage.removeItem(TOKEN);
+  history.push("/login");
 });
 
 const authSlice = createSlice({
@@ -66,19 +57,6 @@ const authSlice = createSlice({
     },
   },
   extraReducers: {
-    [register.pending]: (state) => {
-      state.loading = true;
-    },
-    [register.fulfilled]: (state, action) => {
-      state.loading = false;
-      state.success = true;
-      state.user = action.payload;
-    },
-    [register.rejected]: (state) => {
-      state.loading = false;
-      state.error = true;
-      state.user = null;
-    },
     [me.fulfilled]: (state, action) => {
       state.user = action.payload;
     },
@@ -94,6 +72,7 @@ const authSlice = createSlice({
       state.error = true;
     },
     [logout.fulfilled]: (state) => {
+      state.success = false;
       state.user = null;
     },
   },
