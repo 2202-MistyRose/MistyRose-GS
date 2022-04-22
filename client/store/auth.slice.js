@@ -24,7 +24,7 @@ export const register = createAsyncThunk(
   }
 );
 
-export const me = createAsyncThunk("auth/me", async ({ dispatch }) => {
+export const me = createAsyncThunk("auth/me", async () => {
   const token = window.localStorage.getItem(TOKEN);
   if (token) {
     const res = await axios.get("/auth/me", {
@@ -32,20 +32,19 @@ export const me = createAsyncThunk("auth/me", async ({ dispatch }) => {
         authorization: token,
       },
     });
-    return dispatch(res.data);
+    return res.data;
   }
 });
 
 export const authenticate = createAsyncThunk(
   "auth/authenticate",
-  async (method, { dispatch, rejectWithValue }) => {
+  async ({ username, password }, { rejectWithValue }) => {
     try {
-      const res = await axios.post(`/auth/${method}`, {
+      const res = await axios.post(`/auth/login`, {
         username,
         password,
       });
       window.localStorage.setItem(TOKEN, res.data.token);
-      dispatch(me());
     } catch (error) {
       return rejectWithValue(error);
     }
@@ -79,6 +78,9 @@ const authSlice = createSlice({
       state.loading = false;
       state.error = true;
       state.user = null;
+    },
+    [me.fulfilled]: (state, action) => {
+      state.user = action.payload;
     },
     [authenticate.fulfilled]: (state, action) => {
       state.loading = false;

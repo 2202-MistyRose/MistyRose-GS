@@ -1,3 +1,4 @@
+require("dotenv").config();
 const Sequelize = require("sequelize");
 const db = require("../db");
 const jwt = require("jsonwebtoken");
@@ -25,7 +26,7 @@ const User = db.define("user", {
   userRole: {
     type: Sequelize.ENUM,
     values: ["Admin", "Customer", "Guest"],
-    defaultValue: "Guest",
+    defaultValue: "Customer",
   },
 });
 
