@@ -1,3 +1,4 @@
+
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Route, Switch, Redirect } from "react-router-dom";
@@ -6,7 +7,7 @@ import Home from "./components/Home";
 import AllProducts from "./components/AllProducts";
 import Cart from "./components/Cart";
 import { me } from "./store/auth.slice";
-
+import SingleProduct from './components/SingleProduct';
 /**
  * COMPONENT
  */

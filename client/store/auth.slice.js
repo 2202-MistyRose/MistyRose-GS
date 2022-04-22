@@ -12,10 +12,11 @@ const initialState = {
 };
 
 // create thunk
+
 export const me = createAsyncThunk("auth/me", async () => {
   const token = window.localStorage.getItem(TOKEN);
   if (token) {
-    const res = await axios.get("/auth/me", {
+    const res = await axios.get('/auth/me', {
       headers: {
         authorization: token,
       },
@@ -59,13 +60,14 @@ export const authenticate = createAsyncThunk(
   }
 );
 
+
 export const logout = createAsyncThunk("auth/logout", async () => {
   window.localStorage.removeItem(TOKEN);
   history.push("/login");
 });
 
 const authSlice = createSlice({
-  name: "auth",
+  name: 'auth',
   initialState,
   reducers: {},
   extraReducers: {
