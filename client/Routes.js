@@ -4,6 +4,7 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import { Login, Signup } from "./components/AuthForm";
 import Home from "./components/Home";
 import AllProducts from "./components/AllProducts";
+import Cart from "./components/Cart";
 import { me } from "./store/auth.slice";
 
 /**
@@ -11,7 +12,6 @@ import { me } from "./store/auth.slice";
  */
 
 const Routes = () => {
-  const { success } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -20,21 +20,14 @@ const Routes = () => {
 
   return (
     <div>
-      {success ? (
-        <Switch>
-          <Route path="/home" component={Home} />
-          <Route path="/products" component={AllProducts} />
-          <Redirect to="/home" />
-        </Switch>
-      ) : (
-        <Switch>
-          <Route path="/" exact>
-            {Login}
-          </Route>
-          <Route path="/login">{Login}</Route>
-          <Route path="/signup">{Signup}</Route>
-        </Switch>
-      )}
+      <Switch>
+        <Route path="/home" component={Home} />
+        <Route path="/products" component={AllProducts} />
+        <Route path="/users/:userId/cart" component={Cart} />
+        <Route path="/login" component={Login} />
+        <Route path="/signup" component={SignUp} />
+        <Redirect to="/home" />
+      </Switch>    
     </div>
   );
 };
