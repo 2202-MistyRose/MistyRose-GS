@@ -26,9 +26,9 @@ const Routes = () => {
         <Route path="/products" component={AllProducts} />
         <Route path="/users/:userId/cart" component={Cart} />
         <Route path="/login" component={Login} />
-        <Route path="/signup" component={SignUp} />
+        <Route path="/signup" component={Signup} />
         <Redirect to="/home" />
-      </Switch>    
+      </Switch>
     </div>
   );
 };

@@ -4,7 +4,7 @@ import { productsFetch } from '../store/allProducts';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import { styled } from '@material-ui/core/styles';
-import { withThemeCreator } from '@material-ui/core/node_modules/@material-ui/styles';
+// import { withThemeCreator } from '@material-ui/core/node_modules/@material-ui/styles';
 
 const StyledContainer = styled(Container)({
   display: 'flex',
