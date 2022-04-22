@@ -23,8 +23,8 @@ const Routes = () => {
         <Route path="/home" component={Home} />
         <Route path="/products" component={AllProducts} />
         <Route path="/users/:userId/cart" component={Cart} />
-        <Route path="/login" component={Login} />
-        <Route path="/signup" component={Signup} />
+        <Route path="/login">{Login}</Route>
+        <Route path="/signup">{Signup}</Route>
         <Redirect to="/home" />
       </Switch>
     </div>
