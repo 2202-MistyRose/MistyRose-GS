@@ -21,19 +21,13 @@ function Routes() {
 
   return (
     <div>
-      {user ? (
-        <Switch>
-          <Route path="/home" component={Home} />
-          <Route path="/products" component={AllProducts} />
-          <Redirect to="/home" />
-        </Switch>
-      ) : (
-        <Switch>
-          <Route path="/" exact component={Login} />
-          <Route path="/login" component={Login} />
-          <Route path="/signup" component={SignUp} />
-        </Switch>
-      )}
+      <Switch>
+        <Route path="/home" component={Home} />
+        <Route path="/products" component={AllProducts} />
+        <Route path="/login" component={Login} />
+        <Route path="/signup" component={SignUp} />
+        <Redirect to="/home" />
+      </Switch>
     </div>
   );
 }
