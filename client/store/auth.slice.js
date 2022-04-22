@@ -1,8 +1,8 @@
-import axios from "axios";
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from 'axios';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-const TOKEN = "token";
-const user = JSON.parse(localStorage.getItem("user"));
+const TOKEN = 'token';
+const user = JSON.parse(localStorage.getItem('user'));
 // create initial state (redux toolkit needs a success, error, and loading state)
 const initialState = {
   user: user ? user : null,
@@ -13,21 +13,21 @@ const initialState = {
 
 // create thunk
 export const register = createAsyncThunk(
-  "auth/register",
+  'auth/register',
   async (user, { rejectWithValue }) => {
     try {
-      const res = await axios.post("/api/users", user);
-      return res.data;
+      const res = await axios.post('/api/users', user);
+      return res?.data;
     } catch (err) {
       return rejectWithValue(err);
     }
   }
 );
 
-export const me = createAsyncThunk("auth/me", async ({ dispatch }) => {
+export const me = createAsyncThunk('auth/me', async ({ dispatch }) => {
   const token = window.localStorage.getItem(TOKEN);
   if (token) {
-    const res = await axios.get("/auth/me", {
+    const res = await axios.get('/auth/me', {
       headers: {
         authorization: token,
       },
@@ -37,7 +37,7 @@ export const me = createAsyncThunk("auth/me", async ({ dispatch }) => {
 });
 
 export const authenticate = createAsyncThunk(
-  "auth/authenticate",
+  'auth/authenticate',
   async (method, { dispatch, rejectWithValue }) => {
     try {
       const res = await axios.post(`/auth/${method}`, {
@@ -52,12 +52,12 @@ export const authenticate = createAsyncThunk(
   }
 );
 
-export const logout = createAsyncThunk("auth/logout", async () => {
+export const logout = createAsyncThunk('auth/logout', async () => {
   await window.localStorage.removeItem(TOKEN);
 });
 
 const authSlice = createSlice({
-  name: "auth",
+  name: 'auth',
   initialState,
   reducers: {
     reset: (state) => {
