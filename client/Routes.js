@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Route, Switch, Redirect } from "react-router-dom";
 import SignUp from "./components/SignUp";
 import Login from "./components/Login";
@@ -12,7 +12,6 @@ import AllProducts from "./components/AllProducts";
  */
 
 function Routes() {
-  const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   useEffect(() => {

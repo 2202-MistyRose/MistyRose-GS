@@ -40,7 +40,7 @@ export const authenticate = createAsyncThunk(
   "auth/authenticate",
   async ({ username, password }, { rejectWithValue }) => {
     try {
-      const res = await axios.post(`/auth/login`, {
+      const res = await axios.post("/auth/login", {
         username,
         password,
       });
