@@ -68,7 +68,7 @@ export default function ButtonAppBar() {
             </Link>
           </Typography>
           <Typography variant="h6" className={classes.title}>
-            <Link>Phones</Link>
+            <Link to="/">Phones</Link>
           </Typography>
           <Typography variant="h6" className={classes.title}>
             Mac
