@@ -22,7 +22,6 @@ export default function AllProducts() {
 
   const { products } = useSelector((state) => state.products);
 
-  console.log(products);
   // basic jsx, will edit with materialui
   return (
     <div>

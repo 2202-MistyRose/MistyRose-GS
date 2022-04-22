@@ -1,8 +1,19 @@
+<<<<<<< HEAD
 import React, { useEffect } from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
+=======
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { Route, Switch, Redirect } from "react-router-dom";
+import SignUp from "./components/SignUp";
+import Login from "./components/Login";
+import Home from "./components/Home";
+import { me } from "./store/auth.slice";
+import AllProducts from "./components/AllProducts";
+>>>>>>> bfd88f9858da6bbc53ba3a2facccad286f72667e
 
 import Home from './components/Home';
 import { me } from './store';
@@ -13,7 +24,6 @@ import SingleProduct from './components/SingleProduct';
  */
 
 function Routes() {
-  const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -22,21 +32,13 @@ function Routes() {
 
   return (
     <div>
-      {user ? (
-        <Switch>
-          <Route exact path="/home" component={Home} />
-          <Route exact path="/products" component={AllProducts} />
-          <Route path="/products/:productId" component={SingleProduct} />
-          <Redirect to="/home" />
-        </Switch>
-      ) : (
-        <Switch>
-          <Route path="/" exact component={Login} />
-          <Route path="/login" component={Login} />
-          <Route path="/signup" component={SignUp} />
-          <Route path="/products" component={AllProducts} />
-        </Switch>
-      )}
+      <Switch>
+        <Route path="/home" component={Home} />
+        <Route path="/products" component={AllProducts} />
+        <Route path="/login" component={Login} />
+        <Route path="/signup" component={SignUp} />
+        <Redirect to="/home" />
+      </Switch>
     </div>
   );
 }
