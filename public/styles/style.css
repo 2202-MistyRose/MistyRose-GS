@@ -129,7 +129,7 @@ span.text-red {
 }
 
 .hero-banner-container {
-  padding: 100px 40px;
+  /* padding: 100px 40px; */
   background-color: #dcdcdc;
   border-radius: 15px;
   position: relative;
@@ -155,21 +155,56 @@ span.text-red {
 
 .hero-banner-container h3 {
   font-size: 4rem;
-  /* margin-top: 4px; */
+  margin-top: 4px;
 }
 .hero-banner-container h1 {
   color: white;
   font-size: 10em;
-  margin-left: -20px;
+  position: relative;
+  top: 5rem;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
   text-transform: uppercase;
+
+  -webkit-animation: tracking-in-expand 1.2s cubic-bezier(0.215, 0.61, 0.355, 1)
+    both;
+  animation: tracking-in-expand 1.2s cubic-bezier(0.215, 0.61, 0.355, 1) both;
 }
+
+@-webkit-keyframes tracking-in-expand {
+  0% {
+    letter-spacing: -0.5em;
+    opacity: 0;
+  }
+  40% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes tracking-in-expand {
+  0% {
+    letter-spacing: -0.5em;
+    opacity: 0;
+  }
+  40% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 .hero-banner-image {
   display: flex;
   justify-content: center;
   align-items: center;
   margin-left: auto;
   margin-right: auto;
-  height: 100vh;
+  height: 80vh;
+  width: 100vw;
   top: 0%;
   /* height: 80%; */
 }
