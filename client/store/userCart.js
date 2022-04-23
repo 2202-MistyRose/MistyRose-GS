@@ -12,7 +12,7 @@ const initialState = {
 export const fetchCart = createAsyncThunk('cart/fetchCart',
   async (id) => {
     try {
-      const {data} = await axios.get(`/api/users/{${id}/cart`);
+      const {data} = await axios.get(`/api/users/${id}/cart`);
       return data
     } catch(err) {
       console.log(err)
@@ -21,16 +21,23 @@ export const fetchCart = createAsyncThunk('cart/fetchCart',
 )
 
 // honestly don't know toolkit well, not sure if there will be well written, this communicates with express post request
-// export const addToCart = createAsyncThunk('cart/addToCart',
-//   async (item) => {
-//     try {
-//       const {data: created} = await axios.post('/api/users/:userId/cart', item)
-//       return created // ???????
-//     } catch(err) {
-//       console.log(err)
-//     }
-//   }
-// )
+export const addToCart = createAsyncThunk('cart/addToCart',
+  async (id) => {
+    try {
+      const {product, user} = id;
+      const prodId = product.id;
+      const userId = user.id;
+      console.log(userId)
+      console.log('prod id', prodId)
+      const {data: created} = await axios.post(`/api/products`, {prodId, userId})
+      return created
+    } catch(err) {
+      console.log(err)
+    }
+  }
+)
+
+
 
 // export const removeFromCart = createAsyncThunk('/cart/addToCart',
 //   async (item) => {
@@ -71,6 +78,17 @@ export const cartSlice = createSlice({
       state.status = 'success';
     },
     [fetchCart.rejected]: (state, action) => {
+      state.status = 'rejected';
+      state.error = action.payload;
+    },
+    [addToCart.pending]: (state) => {
+      state.status = 'loading';
+    },
+    [addToCart.fulfilled]: (state, action) => {
+      state.cart.push(action.payload);
+      state.status = 'success';
+    },
+    [addToCart.rejected]: (state, action) => {
       state.status = 'rejected';
       state.error = action.payload;
     }

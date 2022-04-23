@@ -23,7 +23,6 @@ router.get('/', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
   try {
     const user = await User.create(req.body);
-    await Order.create({userId: user.id})
     res.json(user);
   } catch (err) {
     next(err);
@@ -43,7 +42,11 @@ router.get('/:userId/cart', async (req, res, next) => {
     const cartItems = await OrderItem.findAll({
       where: {
         orderId: order.id
-      }
+      },
+      include: [{
+        model: Product,
+        // foreignKey: 'productId'
+      }]
     })
 
     res.json(cartItems)

@@ -1,13 +1,12 @@
-
 import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { Login, Signup } from "./components/AuthForm";
 import Home from "./components/Home";
 import AllProducts from "./components/AllProducts";
 import Cart from "./components/Cart";
 import { me } from "./store/auth.slice";
-import SingleProduct from './components/SingleProduct';
+import SingleProduct from "./components/SingleProduct";
 /**
  * COMPONENT
  */
@@ -23,10 +22,11 @@ const Routes = () => {
     <div>
       <Switch>
         <Route path="/home" component={Home} />
-        <Route path="/products" component={AllProducts} />
+        <Route exact path="/products" component={AllProducts} />
+        <Route path="/products/:productId" component={SingleProduct} />
         <Route path="/users/:userId/cart" component={Cart} />
-        <Route path="/login" component={Login} />
-        <Route path="/signup" component={Signup} />
+        <Route path="/login">{Login}</Route>
+        <Route path="/signup">{Signup}</Route>
         <Redirect to="/home" />
       </Switch>
     </div>
