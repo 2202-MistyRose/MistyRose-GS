@@ -6,6 +6,7 @@ import Home from "./components/Home";
 import AllProducts from "./components/AllProducts";
 import Cart from "./components/Cart";
 import { me } from "./store/auth.slice";
+import SingleProduct from "./components/SingleProduct";
 /**
  * COMPONENT
  */
@@ -21,7 +22,8 @@ const Routes = () => {
     <div>
       <Switch>
         <Route path="/home" component={Home} />
-        <Route path="/products" component={AllProducts} />
+        <Route exact path="/products" component={AllProducts} />
+        <Route path="/products/:productId" component={SingleProduct} />
         <Route path="/users/:userId/cart" component={Cart} />
         <Route path="/login">{Login}</Route>
         <Route path="/signup">{Signup}</Route>

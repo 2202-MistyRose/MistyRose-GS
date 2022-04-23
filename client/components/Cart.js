@@ -12,17 +12,24 @@ export default function Cart() {
     dispatch(fetchCart(userId));
   }, [])
 
-  console.log(cart)
+  console.log('cart is', cart)
+  console.log('item is', cart[0])
+
   // just going to see what data is being received before breaking down the items below
 
   return (
     <div className="cart">
       <h1>Cart</h1>
       {cart.map(item => {
-        <div key={item.id}>
-          <p>item</p>
+        return (
+        <div key={item.product.id}>
+          <img src={item.product.imageUrl} />
+          <p>{item.product.name}</p>
+          <button>Remove Item</button>
         </div>
+        )
       })}
+      <button>Checkout</button>
     </div>
   )
 }
