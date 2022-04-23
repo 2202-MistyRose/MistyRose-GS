@@ -31,17 +31,27 @@ router.post('/', async (req, res, next) => {
         id: req.body.prodId
       }
     })
-
-
-
-
-    const newItem = await OrderItem.create({
-      quantity: 1,
-      totalPrice: product.price,
-      productId: product.id,
-      orderId: order.id
+    // adding this below to see if the item already exists in the table
+    const cartItem = await OrderItem.findOne({
+      where: {
+        productId: req.body.prodId,
+        orderId: order.id
+      }
     })
-    res.send(newItem)
+
+    if (cartItem) {
+      await cartItem.update({...cartItem, quantity: cartItem.quantity + 1})
+      res.send(cartItem)
+    } else {
+      const newItem = await OrderItem.create({
+        quantity: 1,
+        totalPrice: product.price,
+        productId: product.id,
+        orderId: order.id
+      })
+      res.send(newItem)
+    }
+
   } catch (err) {
     next(err)
   }
