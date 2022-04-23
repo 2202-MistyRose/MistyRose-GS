@@ -27,8 +27,6 @@ export const addToCart = createAsyncThunk('cart/addToCart',
       const {product, user} = id;
       const prodId = product.id;
       const userId = user.id;
-      console.log(userId)
-      console.log('prod id', prodId)
       const {data: created} = await axios.post(`/api/products`, {prodId, userId})
       return created
     } catch(err) {
@@ -37,18 +35,16 @@ export const addToCart = createAsyncThunk('cart/addToCart',
   }
 )
 
-
-
-// export const removeFromCart = createAsyncThunk('/cart/addToCart',
-//   async (item) => {
-//     try {
-//       const {data: deleted} = await axios.delete('/api/users/:userId/cart', item)
-//       return deleted // ?????
-//     } catch(err) {
-//       console.log(err)
-//     }
-//   }
-// )
+export const removeFromCart = createAsyncThunk('/cart/addToCart',
+  async (item) => {
+    try {
+      const {data: deleted} = await axios.delete('/api/users/:userId/cart', item)
+      return deleted
+    } catch(err) {
+      console.log(err)
+    }
+  }
+)
 
 // should there be separate increment and decrement functions? or should there just be an update that takes in the updated item?
 

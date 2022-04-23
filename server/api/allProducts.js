@@ -31,13 +31,16 @@ router.post('/', async (req, res, next) => {
         id: req.body.prodId
       }
     })
+
+
+
+
     const newItem = await OrderItem.create({
       quantity: 1,
       totalPrice: product.price,
       productId: product.id,
       orderId: order.id
     })
-    console.log('new item:', newItem)
     res.send(newItem)
   } catch (err) {
     next(err)

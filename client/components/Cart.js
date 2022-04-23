@@ -25,6 +25,7 @@ export default function Cart() {
         <div key={item.product.id}>
           <img src={item.product.imageUrl} />
           <p>{item.product.name}</p>
+          <p>quantity: {item.quantity}</p>
           <button>Remove Item</button>
         </div>
         )
