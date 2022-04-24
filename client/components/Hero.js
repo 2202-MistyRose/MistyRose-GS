@@ -1,28 +1,61 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import '../../public/styles/style.css';
+import { useSelector, useDispatch } from 'react-redux';
+import { productsFetch } from '../store/allProducts';
+import { getSingleProduct } from '../store/singleProduct';
+import Banner from './banner';
+import Carousel from './carousel';
+import CartArea from './CartArea';
+import Footer from './Footer';
+import FooterBanner from './FooterBanner';
+import { Link } from 'react-router-dom';
 
 const Hero = () => {
+  // const [initialState, setInitialState] = useState('whatever intial state you want');
+  const { products } = useSelector((state) => state.products);
+  const { product } = useSelector((state) => state.product);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(productsFetch());
+  }, []);
+
+  useEffect(() => {
+    dispatch(getSingleProduct(1));
+  }, []);
+
+  useEffect(() => {}, []);
+
+  console.log(products);
   return (
-    // <>
-    //   HeroBanner
-    //   <div>best selling products</div>
-    //   <p>something here</p>
-    //   <div>
-    //     {['product1', 'product2'].map((product) => (
-    //       <div>{product}</div>
-    //     ))}
-    //   </div>
-    //   footer
-    // </>
-    <div className="hero-banner-container">
-      <div>
-        <h1>Our #1 product!!</h1>
-        <img
-          className="hero-banner-image"
-          src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
-          alt="hero-banner"
-        />
-      </div>
+    <div>
+      <>
+        {/* add animation on scroll */}
+        <Banner />
+
+        <div className="products-heading">
+          <h2>Our products are rated #1!!</h2>
+          <p>join the team..</p>
+        </div>
+
+        <div className="products-container">
+          {products?.map((product) => (
+            <Link to={`/products/${product.id}`}>
+              <div className="product-card">
+                <img
+                  src={product.imageUrl}
+                  width={250}
+                  height={250}
+                  className="product-image"
+                />
+                <p className="product-name">{product.name}</p>
+                <p className="product-price">${product.price}</p>
+                {/* <p>{product.description}</p> */}
+              </div>
+            </Link>
+          ))}
+        </div>
+      </>
     </div>
   );
 };

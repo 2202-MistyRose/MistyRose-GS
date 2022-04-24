@@ -22,13 +22,14 @@ const Routes = () => {
   return (
     <div>
       <Switch>
-        <Route path="/home" component={Home} />
+        <Route path="/home" component={Hero} />
         <Route exact path="/products" component={AllProducts} />
         <Route path="/products/:productId" component={SingleProduct} />
         <Route path="/users/:userId/cart" component={Cart} />
         <Route path="/login">{Login}</Route>
         <Route path="/signup">{Signup}</Route>
-        <Route path="/newhome">{Hero}</Route>
+        <Route path="/newhome" exact component={Hero} />
+
         <Redirect to="/home" />
       </Switch>
     </div>
