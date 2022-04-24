@@ -73,46 +73,18 @@ export const clearCart = createAsyncThunk('cart/increment',
   }
 )
 
-// export const increment = createAsyncThunk('/cart/increment',
-//   async (itemObj) => {
-//     try {
-//       const {item, userId} = itemObj;
-//       const newItem = {...item, quantity: item.quantity + 1}
-//       const {data: incremented} = await axios.put(`/api/users/${userId}/cart`, newItem);
-//       return incremented
-//     } catch (err) {
-//       console.log(err)
-//     }
-//   }
-// )
-
-// export const decrement = createAsyncThunk('/cart/increment',
-//   async (itemObj) => {
-//     try {
-//       const {item, userId} = itemObj;
-//       const newItem = {...item, quantity: item.quantity - 1}
-//       const {data: incremented} = await axios.put(`/api/users/${userId}/cart`, newItem);
-//       return incremented
-//     } catch (err) {
-//       console.log(err)
-//     }
-//   }
-// )
-
-// should there be separate increment and decrement functions? or should there just be an update that takes in the updated item?
-
-// export const changeQuantity = createAsyncThunk('cart/changeQuantity',
-//   async (item) => {
-//     try {
-//       const {data: updated} = await axios.post('/api/users/:userId/cart', item)
-//       return updated
-//     } catch (err) {
-//       console.log(err)
-//     }
-//   }
-// )
-
-// createSlice
+export const checkout = createAsyncThunk('cart/checkout',
+  async (userId) => {
+    try {
+      // put request
+      console.log('checkout')
+      const {data: updated} = await axios.put(`/api/users/${userId}/cart`)
+      return updated
+    } catch(err) {
+      console.log(err)
+    }
+  }
+)
 
 export const cartSlice = createSlice({
   name: 'cart',
@@ -184,6 +156,17 @@ export const cartSlice = createSlice({
       state.status = 'success';
     },
     [clearCart.rejected]: (state, action) => {
+      state.status = 'rejected';
+      state.error = action.payload;
+    },
+    [checkout.pending]: (state) => {
+      state.status = 'loading';
+    },
+    [checkout.fulfilled]: (state, action) => {
+      state.cart = [];
+      state.status = 'success';
+    },
+    [checkout.rejected]: (state, action) => {
       state.status = 'rejected';
       state.error = action.payload;
     }

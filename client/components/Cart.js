@@ -1,7 +1,9 @@
 import React, {useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchCart, removeFromCart, updateQuantity, clearCart } from '../store/userCart';
+import { fetchCart, removeFromCart, updateQuantity, clearCart, checkout } from '../store/userCart';
 import { useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import Checkout from './Checkout';
 
 export default function Cart() {
   const {cart} = useSelector(state => state.cart);
@@ -25,11 +27,7 @@ export default function Cart() {
   // there may be a better method than this lol
   const totalPrice = cart.length === 0 ? 0 : cart.reduce((total, item) => {
     return total + (item.product.price * item.quantity)
-  }, 0)
-  // console.log('cart is', cart)
-  // console.log('item is', cart[0])
-
-  // just going to see what data is being received before breaking down the items below
+  }, 0);
 
   return (
     <div className="cart">
@@ -41,7 +39,7 @@ export default function Cart() {
           <p>{item.product.name}</p>
           {/* <p>quantity: {item.quantity}</p> */}
           <div>
-            <button onClick={() => decrement(item)}>-</button>
+            {item.quantity > 1 ? <button onClick={() => decrement(item)}>-</button> : null}
             <span> quantity: {item.quantity} </span>
             <button onClick={() => increment(item)}>+</button>
           </div>
@@ -51,7 +49,12 @@ export default function Cart() {
       })}
       <button onClick={() => dispatch(clearCart(userId))}>Clear Cart</button>
       <div>Total Price: ${totalPrice === 0 ? 0 : totalPrice / 100}.00</div>
-      <button>Checkout</button>
+      {/* <button onClick={() => dispatch(checkout(userId))}>Checkout</button> */}
+      <Link to={`/users/${userId}/checkout`}>Checkout</Link>
+      {/* <a href={<Checkout total={totalPrice}/>}>Checkout</a> */}
+
     </div>
   )
 }
+
+// can i just link the checkout in an a tag? want to pass down the total as a prop to make things earier

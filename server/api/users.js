@@ -55,6 +55,22 @@ router.get('/:userId/cart', async (req, res, next) => {
   }
 })
 
+// router.post('/:userId/cart', async (req, res, next) => {
+//   try {
+//     const order = await Order.findOne({
+//       where: {
+//         userId: req.params.userId,
+//         status: true
+//       }
+//     });
+
+//     await order.update({...order, status: false})
+//     res.send(await Order.create({userId: req.params.id}))
+//   } catch (err) {
+//     next(err)
+//   }
+// })
+
 router.put('/:userId/cart', async (req, res, next) => {
   try {
     const order = await Order.findOne({
@@ -63,16 +79,27 @@ router.put('/:userId/cart', async (req, res, next) => {
         status: true
       }
     });
-    const cartItem = await OrderItem.findOne({
-      where: {
-        orderId: order.id,
-        productId: req.body.productId
+    if (req.body.productId) { // increment / decrement
+      const cartItem = await OrderItem.findOne({
+        where: {
+          orderId: order.id,
+          productId: req.body.productId
+        }
+      })
+      if (cartItem.quantity === 0) {
+        res.json(await cartItem.destroy())
+      } else {
+        res.json(await cartItem.update({...req.body}))
       }
-    })
-    if (cartItem.quantity === 0) {
-      res.json(await cartItem.destroy())
-    } else {
-      res.json(await cartItem.update({...req.body}))
+    } else { // updating when checkout occurs, no req.body
+      await order.update({...order, status: false}) // inactivate order
+      await Order.create({userId: req.params.userId}) // new order
+      // const orderItems = await OrderItem.findAll({
+      //   where: {
+      //     orderId: order.id
+      //   }
+      // })
+      res.sendStatus(200)
     }
   } catch (err) {
     next(err)
@@ -87,9 +114,8 @@ router.delete('/:userId/cart', async (req, res, next) => {
         userId: req.params.userId
       }
     })
-    // doing a req.body.id because we need the specific id of the product we'll delete, and we'll pass it from the axios inside of the delete request
 
-    if (req.body.item) {
+    if (req.body.item) { // removing from cart
       const item = await OrderItem.findOne({
         where: {
           orderId: order.id,
@@ -97,21 +123,14 @@ router.delete('/:userId/cart', async (req, res, next) => {
         }
       })
       res.send(await item.destroy())
-    } else {
+
+    } else { // clearing cart
       await OrderItem.destroy({
         where: {
           orderId: order.id
         }
       })
       res.sendStatus(204);
-      // const cart = await OrderItem.findAll({
-      //   where: {
-      //     orderId: order.id
-      //   }
-      // })
-      // const deleted = await Promise.all(cart.forEach(prod => prod.destroy()))
-      // res.json(deleted)
-
     }
   } catch (err) {
     next(err)
