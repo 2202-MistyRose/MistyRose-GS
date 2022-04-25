@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { getSingleProduct } from '../store/singleProduct';
-import { Grid, makeStyles } from '@material-ui/core';
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { getSingleProduct } from "../../store/singleProduct";
+import { Grid, makeStyles } from "@material-ui/core";
 
 function SingleProduct() {
   const { productId } = useParams();

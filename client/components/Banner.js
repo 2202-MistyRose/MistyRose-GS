@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { getSingleProduct } from '../store/singleProduct';
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import { getSingleProduct } from "../store/singleProduct";
 
 const Banner = () => {
   const { product } = useSelector((state) => state.product);
@@ -11,7 +11,6 @@ const Banner = () => {
     dispatch(getSingleProduct(1));
   }, []);
 
-  console.log(product);
   return (
     <div className="hero-banner-container">
       <div>
