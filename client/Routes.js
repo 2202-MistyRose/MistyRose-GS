@@ -32,7 +32,7 @@ const Routes = () => {
         <Route path="/users/:userId/checkout" component={Checkout} />
         <Route path="/login">{Login}</Route>
         <Route path="/signup">{Signup}</Route>
-        <Route path="/newhome" exact component={Hero} />
+        {/* <Route path="/newhome" exact component={Hero} /> */}
         <Route path="/admin" component={AdminView} />
         <Route exact path="/profile" component={Profile} />
         <Redirect to="/home" />

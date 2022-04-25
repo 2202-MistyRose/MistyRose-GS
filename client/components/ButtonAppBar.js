@@ -4,7 +4,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
 import { logout } from "../store/auth.slice";
 
@@ -24,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 export default function ButtonAppBar() {
   const classes = useStyles();
 
-  const { user, success } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   return (
@@ -43,7 +42,6 @@ export default function ButtonAppBar() {
               src="/images/pearpng.png"
             />
           </Link>
-
           <Typography variant="h6" className={classes.title}>
             <Link to="/products">Store</Link>
           </Typography>
@@ -56,8 +54,7 @@ export default function ButtonAppBar() {
           <Typography variant="h6" className={classes.title}>
             Accessories
           </Typography>
-          <Button color="inherit">Login</Button>
-          {success ? (
+          {user ? (
             <div>
               {/* The navbar will show these links after you log in */}
               <Link to={user.userRole === "Admin" ? "/admin" : "/profile"}>
