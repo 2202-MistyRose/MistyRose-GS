@@ -40,7 +40,6 @@ export default function Cart() {
     dispatch(updateQuantity({ item, userId }));
   }
 
-  // there may be a better method than this lol
   const totalPrice =
     cart.length === 0
       ? 0
@@ -50,10 +49,6 @@ export default function Cart() {
 
   return (
     <div className="cart">
-      {/* <h1>Cart</h1> */}
-      {/* <Typography align="center" variant="h3" style={{margin: '30px'}}>
-        Cart
-      </Typography> */}
       {cart.length ?  <Typography align="center" variant="h3" style={{margin: '30px'}}>
         Cart
       </Typography> : <Typography align="center" variant="h3" style={{margin: '30px'}} > Your cart is empty!</Typography>}
@@ -76,9 +71,6 @@ export default function Cart() {
           // </div>
         );
       })}
-      {/* <Button onClick={() => dispatch(clearCart(userId))}>Clear Cart</Button> */}
-      {/* <Typography style={{margin: '15px'}} align="center">Subtotal: ${totalPrice === 0 ? 0 : totalPrice / 100}.00</Typography> */}
-
       {cart.length ?
         <React.Fragment>
           <Typography style={{margin: '15px'}} align="center">Subtotal: ${totalPrice === 0 ? 0 : totalPrice / 100}.00</Typography>
@@ -92,19 +84,6 @@ export default function Cart() {
         </React.Fragment>
         : null
       }
-
-      {/* <Link to={`/users/${userId}/checkout`}>
-        {cart.length ?
-        <div>
-        <Typography style={{margin: '15px'}} align="center">Subtotal: ${totalPrice === 0 ? 0 : totalPrice / 100}.00</Typography>
-        <Box textAlign="right">
-          <Button align="left" variant="outlined" color="secondary" onClick={() => dispatch(clearCart(userId))} style={{marginRight: '15px'}}>Clear Cart</Button>
-          <Button startIcon={<ArrowRightAltIcon />} color="primary" variant="contained">Checkout</Button>
-        </Box> </div>: null}
-      </Link> */}
-
     </div>
   );
 }
-
-// can i just link the checkout in an a tag? want to pass down the total as a prop to make things earier
