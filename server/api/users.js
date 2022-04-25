@@ -1,9 +1,9 @@
-const router = require("express").Router();
+const router = require('express').Router();
 // const { NetworkCell } = require("@material-ui/icons");
-const { user } = require("pg/lib/defaults");
+const { user } = require('pg/lib/defaults');
 const {
   models: { User, Order, OrderItem, Product },
-} = require("../db");
+} = require('../db');
 module.exports = router;
 
 // making sure we keep track of which user is signed in
@@ -18,14 +18,14 @@ const requireToken = async (req, res, next) => {
   }
 };
 
-router.get("/", async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
     const users = await User.findAll({
       // explicitly select only the id and username fields - even though
       // users' passwords are encrypted, it won't help if we just
       // send everything to anyone who asks!
       // attributes: ["id", "username"],
-      attributes: ["id", "username", "email", "userRole"],
+      attributes: ['id', 'username', 'email', 'userRole'],
     });
     res.json(users);
   } catch (err) {
@@ -33,18 +33,8 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-// create a post route for users
-router.post("/", async (req, res, next) => {
-  try {
-    const user = await User.create(req.body);
-    res.json(user);
-  } catch (err) {
-    next(err);
-  }
-});
-
 // delete user
-router.delete("/:id", async (req, res, next) => {
+router.delete('/:id', async (req, res, next) => {
   try {
     const user = await User.findOne({
       where: {
@@ -60,12 +50,12 @@ router.delete("/:id", async (req, res, next) => {
 });
 
 // get signed-in user cart
-router.get("/:userId/cart", requireToken, async (req, res, next) => {
+router.get('/:userId/cart', requireToken, async (req, res, next) => {
   try {
     // added this so it won't return another user's cart
     const user = req.user;
     if (user.id !== Number(req.params.userId)) {
-      throw Error("not valid user");
+      throw Error('not valid user');
     }
 
     const order = await Order.findOne({
@@ -91,7 +81,7 @@ router.get("/:userId/cart", requireToken, async (req, res, next) => {
   }
 });
 
-router.put("/:userId/cart", async (req, res, next) => {
+router.put('/:userId/cart', async (req, res, next) => {
   try {
     const order = await Order.findOne({
       where: {
@@ -117,7 +107,7 @@ router.put("/:userId/cart", async (req, res, next) => {
   }
 });
 
-router.delete("/:userId/cart", async (req, res, next) => {
+router.delete('/:userId/cart', async (req, res, next) => {
   try {
     const order = await Order.findOne({
       where: {
@@ -158,18 +148,21 @@ router.post('/:userId/checkout', async (req, res, next) => {
       },
     });
     // inactivate their order
-    order.update({...order, status: false})
+    order.update({ ...order, status: false });
     // create new empty order for them to keep shopping
-    Order.create({userId: req.params.userId})
+    Order.create({ userId: req.params.userId });
     // cart is passed in req body
-    req.body.forEach(async item => {
+    req.body.forEach(async (item) => {
       let product = await Product.findOne({
         where: {
-          id: item.productId
-        }
-      })
-      await product.update({...product, stock: product.stock - item.quantity})
-    })
+          id: item.productId,
+        },
+      });
+      await product.update({
+        ...product,
+        stock: product.stock - item.quantity,
+      });
+    });
     res.sendStatus(200);
   } catch (err) {
     next(err);

@@ -1,20 +1,14 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { productsFetch } from "../../store/allProducts";
-import Typography from "@material-ui/core/Typography";
-import Container from "@material-ui/core/Container";
-// import Button from '@material-ui/core/Button';
-import { styled } from "@material-ui/core/styles";
-import { addToCart } from "../../store/userCart";
-import { Grid, makeStyles, Paper } from "@material-ui/core";
-import { Link } from "react-router-dom";
-
-const StyledContainer = styled(Container)({
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  justifyContent: "center",
-});
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { productsFetch } from '../store/allProducts';
+import Typography from '@material-ui/core/Typography';
+import Container from '@material-ui/core/Container';
+import { styled } from '@material-ui/core/styles';
+import { addToCart } from '../store/userCart';
+import { Grid, makeStyles, Paper } from '@material-ui/core';
+import { Link } from 'react-router-dom';
+// add mac specific banner
+// import Banner from './banner';
 
 export default function AllProducts() {
   const dispatch = useDispatch();
@@ -40,9 +34,8 @@ export default function AllProducts() {
   }, []);
 
   const { products } = useSelector((state) => state.products);
-  console.log(products, "products");
-  const mac = products.filter((product) => product.category === "Laptop");
-  // basic jsx, will edit with materialui
+  console.log(products, 'products');
+  const mac = products.filter((product) => product.category === 'Laptop');
   return (
     <div className="">
       <h2>Shop Phones!</h2>

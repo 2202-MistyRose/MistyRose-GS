@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
-import "../../public/styles/style.css";
-import { useSelector, useDispatch } from "react-redux";
-import { productsFetch } from "../store/allProducts";
-import Banner from "./banner";
-import { Link } from "react-router-dom";
+import React, { useEffect } from 'react';
+import '../../public/styles/style.css';
+import { useSelector, useDispatch } from 'react-redux';
+import { productsFetch } from '../store/allProducts';
+import Banner from './banner';
+import { Link } from 'react-router-dom';
 
 const Hero = () => {
   const { products } = useSelector((state) => state.products);
@@ -16,7 +16,6 @@ const Hero = () => {
   return (
     <div>
       <>
-        {/* add animation on scroll */}
         <Banner />
 
         <div className="products-heading">
