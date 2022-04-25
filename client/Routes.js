@@ -1,10 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Route, Switch, Redirect } from "react-router-dom";
-<<<<<<< HEAD
-=======
 import Hero from "./components/Hero";
->>>>>>> 96a1e04e3c428f9b7ead0b4b502e86f2a2242d45
 import { me } from "./store/auth.slice";
 import { Login, Signup } from "./components/AuthForm";
 import AllProducts from "./components/AllProducts";
