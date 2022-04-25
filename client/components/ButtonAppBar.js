@@ -56,7 +56,6 @@ export default function ButtonAppBar() {
           </Typography>
           {user ? (
             <div>
-              {/* The navbar will show these links after you log in */}
               <Link to={user.userRole === 'Admin' ? '/admin' : '/profile'}>
                 Profile
               </Link>
@@ -66,7 +65,6 @@ export default function ButtonAppBar() {
             </div>
           ) : (
             <div>
-              {/* The navbar will show these links before you log in */}
               <Link to="/login">Login</Link>
               <Link to="/signup">Sign Up</Link>
             </div>
