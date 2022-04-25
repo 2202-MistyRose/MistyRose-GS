@@ -13,9 +13,6 @@ const Hero = () => {
     dispatch(productsFetch());
   }, []);
 
-  useEffect(() => {}, []);
-
-  console.log(products);
   return (
     <div>
       <>

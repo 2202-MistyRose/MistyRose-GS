@@ -31,7 +31,6 @@ export default function AllProducts() {
   }, []);
 
   const { products } = useSelector((state) => state.products);
-  console.log(products, 'products');
   const phones = products.filter((product) => product.category === 'Phone');
   console.log(phones, 'phones');
   return (
