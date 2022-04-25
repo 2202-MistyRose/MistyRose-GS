@@ -14,16 +14,10 @@ router.get('/', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    // const order = await Order.findOne({
-    //   where: {
-    //     userId: req.params.userId,
-    //     status: true
-    //   }
-    // })
-    console.log('reqbody:',req.body)
     const order = await Order.findOne({
       where: {
-        userId: req.body.userId
+        userId: req.body.userId,
+        status: true
       }
     })
     const product = await Product.findOne({
@@ -31,14 +25,27 @@ router.post('/', async (req, res, next) => {
         id: req.body.prodId
       }
     })
-    const newItem = await OrderItem.create({
-      quantity: 1,
-      totalPrice: product.price,
-      productId: product.id,
-      orderId: order.id
+    // see if the item already exists in the table
+    const cartItem = await OrderItem.findOne({
+      where: {
+        productId: req.body.prodId,
+        orderId: order.id
+      }
     })
-    console.log('new item:', newItem)
-    res.send(newItem)
+
+    if (cartItem) {
+      await cartItem.update({...cartItem, quantity: cartItem.quantity + 1})
+      res.send(cartItem)
+    } else {
+      const newItem = await OrderItem.create({
+        quantity: 1,
+        totalPrice: product.price,
+        productId: product.id,
+        orderId: order.id
+      })
+      res.send(newItem)
+    }
+
   } catch (err) {
     next(err)
   }

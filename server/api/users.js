@@ -1,8 +1,22 @@
 const router = require("express").Router();
+// const { NetworkCell } = require("@material-ui/icons");
+const { user } = require("pg/lib/defaults");
 const {
   models: { User, Order, OrderItem, Product },
 } = require("../db");
 module.exports = router;
+
+// making sure we keep track of which user is signed in
+const requireToken = async (req, res, next) => {
+  try {
+    const token = req.headers.authorization;
+    const user = await User.findByToken(token);
+    req.user = user;
+    next();
+  } catch (err) {
+    next(err);
+  }
+};
 
 router.get("/", async (req, res, next) => {
   try {
@@ -10,6 +24,7 @@ router.get("/", async (req, res, next) => {
       // explicitly select only the id and username fields - even though
       // users' passwords are encrypted, it won't help if we just
       // send everything to anyone who asks!
+      // attributes: ["id", "username"],
       attributes: ["id", "username", "email", "userRole"],
     });
     res.json(users);
@@ -44,10 +59,15 @@ router.delete("/:id", async (req, res, next) => {
   }
 });
 
-// getting cart items associated to user logged in
-// need to send back data for the products as well so might have to join the order_products table with the products when sending back data
-router.get("/:userId/cart", async (req, res, next) => {
+// get signed-in user cart
+router.get("/:userId/cart", requireToken, async (req, res, next) => {
   try {
+    // added this so it won't return another user's cart
+    const user = req.user;
+    if (user.id !== Number(req.params.userId)) {
+      throw Error("not valid user");
+    }
+
     const order = await Order.findOne({
       where: {
         userId: req.params.userId,
@@ -61,7 +81,6 @@ router.get("/:userId/cart", async (req, res, next) => {
       include: [
         {
           model: Product,
-          // foreignKey: 'productId'
         },
       ],
     });
@@ -72,8 +91,7 @@ router.get("/:userId/cart", async (req, res, next) => {
   }
 });
 
-// adding an item to user cart
-router.post("/:userId/cart", async (req, res, next) => {
+router.put("/:userId/cart", async (req, res, next) => {
   try {
     const order = await Order.findOne({
       where: {
@@ -81,27 +99,24 @@ router.post("/:userId/cart", async (req, res, next) => {
         status: true,
       },
     });
-    const product = await Product.findOne({
+    // increment / decrement
+    const cartItem = await OrderItem.findOne({
       where: {
-        id: req.body.id,
+        orderId: order.id,
+        productId: req.body.productId,
       },
     });
-    // need to create with the req.body but also need the orderId?
-    // does this work?
-    res.send(
-      await OrderItem.create({
-        quantity: 1,
-        totalPrice: product.price,
-        productId: product.id,
-        orderId: order.id,
-      })
-    );
+    // this next line may be useless, updating front end where user can't decrement if they have one product
+    if (cartItem.quantity === 0) {
+      res.json(await cartItem.destroy());
+    } else {
+      res.json(await cartItem.update({ ...req.body }));
+    }
   } catch (err) {
     next(err);
   }
 });
 
-// delete request, there will be a remove from cart button
 router.delete("/:userId/cart", async (req, res, next) => {
   try {
     const order = await Order.findOne({
@@ -109,14 +124,53 @@ router.delete("/:userId/cart", async (req, res, next) => {
         userId: req.params.userId,
       },
     });
-    // doing a req.body.id because we need the specific id of the product we'll delete, and we'll pass it from the axios inside of the delete request
-    const item = await OrderItem.findOne({
+
+    if (req.body.item) {
+      // removing from cart
+      const item = await OrderItem.findOne({
+        where: {
+          orderId: order.id,
+          productId: req.body.item.productId,
+        },
+      });
+      res.send(await item.destroy());
+    } else {
+      // clearing cart (if a req.body wasn't passed in)
+      await OrderItem.destroy({
+        where: {
+          orderId: order.id,
+        },
+      });
+      res.sendStatus(204);
+    }
+  } catch (err) {
+    next(err);
+  }
+});
+
+// checkout
+router.post('/:userId/checkout', async (req, res, next) => {
+  try {
+    const order = await Order.findOne({
       where: {
-        orderId: order.id,
-        productId: req.body.id,
+        userId: req.params.userId,
+        status: true,
       },
     });
-    res.send(await item.destroy());
+    // inactivate their order
+    order.update({...order, status: false})
+    // create new empty order for them to keep shopping
+    Order.create({userId: req.params.userId})
+    // cart is passed in req body
+    req.body.forEach(async item => {
+      let product = await Product.findOne({
+        where: {
+          id: item.productId
+        }
+      })
+      await product.update({...product, stock: product.stock - item.quantity})
+    })
+    res.sendStatus(200);
   } catch (err) {
     next(err);
   }

@@ -7,6 +7,7 @@ import Home from "./components/Home";
 import AllProducts from "./components/AllProducts";
 import Cart from "./components/Cart";
 import SingleProduct from "./components/SingleProduct";
+import Checkout from "./components/Checkout";
 import AdminView from "./components/AdminDash/AdminView";
 import Profile from "./components/CustomerProfile/Profile";
 
@@ -28,6 +29,7 @@ const Routes = () => {
         <Route exact path="/products" component={AllProducts} />
         <Route path="/products/:productId" component={SingleProduct} />
         <Route path="/users/:userId/cart" component={Cart} />
+        <Route path="/users/:userId/checkout" component={Checkout} />
         <Route path="/login">{Login}</Route>
         <Route path="/signup">{Signup}</Route>
         <Route path="/admin" component={AdminView} />
