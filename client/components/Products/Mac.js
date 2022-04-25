@@ -53,29 +53,31 @@ export default function AllProducts() {
               return (
                 <Grid item xs={12} md={6}>
                   <Paper>
-                    <Link to={`/products/${product.id}`}>
-                      <div key={product.id} className="">
-                        <Grid item xs={12} md={6}>
+                    <div key={product.id} className="">
+                      <Grid item xs={12} md={6}>
+                        <Link to={`/products/${product.id}`}>
                           <Typography component="span" variant="h3">
                             {product.name}
                           </Typography>
-                        </Grid>
+                        </Link>
+                      </Grid>
+                      <Link to={`/products/${product.id}`}>
                         <Grid item xs={12} md={6}>
                           <img src={product.imageUrl} style={{ height: 300 }} />
                         </Grid>
-                        <Grid item xs={8}>
-                          <Typography component="span" variant="h6">
-                            {product.description}
-                          </Typography>
-                        </Grid>
-                        <button
-                          className="hero-banner-button"
-                          onClick={() => dispatch(addToCart({ product, user }))}
-                        >
-                          Add to Cart
-                        </button>
-                      </div>
-                    </Link>
+                      </Link>
+                      <Grid item xs={8}>
+                        <Typography component="span" variant="h6">
+                          {product.description}
+                        </Typography>
+                      </Grid>
+                      <button
+                        className="hero-banner-button"
+                        onClick={() => dispatch(addToCart({ product, user }))}
+                      >
+                        Add to Cart
+                      </button>
+                    </div>
                   </Paper>
                 </Grid>
               );
