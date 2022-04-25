@@ -7,12 +7,16 @@ const initialState = {
   error: null
 }
 
-// getting all of the products
-// take in ID for user?
 export const fetchCart = createAsyncThunk('cart/fetchCart',
   async (id) => {
     try {
-      const {data} = await axios.get(`/api/users/${id}/cart`);
+      // added token and headers to request
+      const token = window.localStorage.getItem("token");
+      const {data} = await axios.get(`/api/users/${id}/cart`, {
+        headers: {
+          authorization: token
+        }
+      });
       return data
     } catch(err) {
       console.log(err)
@@ -20,7 +24,6 @@ export const fetchCart = createAsyncThunk('cart/fetchCart',
   }
 )
 
-// honestly don't know toolkit well, not sure if there will be well written, this communicates with express post request
 export const addToCart = createAsyncThunk('cart/addToCart',
   async (id) => {
     try {
@@ -53,7 +56,6 @@ export const updateQuantity = createAsyncThunk('/cart/increment',
   async (itemObj) => {
     try {
       const {item, userId} = itemObj;
-      // const newItem = {...item, quantity: item.quantity + 1}
       const {data: updated} = await axios.put(`/api/users/${userId}/cart`, item);
       return updated
     } catch (err) {
@@ -74,11 +76,12 @@ export const clearCart = createAsyncThunk('cart/increment',
 )
 
 export const checkout = createAsyncThunk('cart/checkout',
-  async (userId) => {
+  async (info) => {
     try {
-      // put request
+      // pass in the cart to get items instead of searching backend
+      const {userId, cart} = info;
       console.log('checkout')
-      const {data: updated} = await axios.put(`/api/users/${userId}/cart`)
+      const {data: updated} = await axios.post(`/api/users/${userId}/checkout`, cart)
       return updated
     } catch(err) {
       console.log(err)

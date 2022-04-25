@@ -14,16 +14,10 @@ router.get('/', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    // const order = await Order.findOne({
-    //   where: {
-    //     userId: req.params.userId,
-    //     status: true
-    //   }
-    // })
-    console.log('reqbody:',req.body)
     const order = await Order.findOne({
       where: {
-        userId: req.body.userId
+        userId: req.body.userId,
+        status: true
       }
     })
     const product = await Product.findOne({
@@ -31,7 +25,7 @@ router.post('/', async (req, res, next) => {
         id: req.body.prodId
       }
     })
-    // adding this below to see if the item already exists in the table
+    // see if the item already exists in the table
     const cartItem = await OrderItem.findOne({
       where: {
         productId: req.body.prodId,
