@@ -16,7 +16,7 @@ const StyledContainer = styled(Container)({
 
 export default function AllProducts() {
   const dispatch = useDispatch();
-  const {user} = useSelector(state => state.auth)
+  const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(productsFetch());
@@ -32,11 +32,16 @@ export default function AllProducts() {
         <Container maxWidth="sm">
           {products.map((product) => (
             <div key={product.id} className="product">
-              <Typography variant="h3">{product.name}</Typography>
+              <Typography component="span" variant="h3">
+                {product.name}
+              </Typography>
               <img src={product.imageUrl} />
-              <Typography variant="h6">{product.description}</Typography>
-              <Button onClick={() => dispatch(addToCart({product, user}))}>
-              Add to Cart</Button>
+              <Typography component="span" variant="h6">
+                {product.description}
+              </Typography>
+              <Button onClick={() => dispatch(addToCart({ product, user }))}>
+                Add to Cart
+              </Button>
             </div>
           ))}
         </Container>
