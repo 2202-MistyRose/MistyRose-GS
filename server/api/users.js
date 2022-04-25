@@ -24,7 +24,8 @@ router.get("/", async (req, res, next) => {
       // explicitly select only the id and username fields - even though
       // users' passwords are encrypted, it won't help if we just
       // send everything to anyone who asks!
-      attributes: ["id", "username"],
+      // attributes: ["id", "username"],
+      attributes: ["id", "username", "email", "userRole"],
     });
     res.json(users);
   } catch (err) {
@@ -42,6 +43,23 @@ router.post("/", async (req, res, next) => {
   }
 });
 
+// delete user
+router.delete("/:id", async (req, res, next) => {
+  try {
+    const user = await User.findOne({
+      where: {
+        id: req.params.id,
+      },
+    });
+    console.log(user);
+    await user.destroy();
+    res.send(user);
+  } catch (err) {
+    next(err);
+  }
+});
+
+// get signed-in user cart
 router.get("/:userId/cart", requireToken, async (req, res, next) => {
   try {
     // added this so it won't return another user's cart
@@ -88,6 +106,7 @@ router.put("/:userId/cart", async (req, res, next) => {
         productId: req.body.productId,
       },
     });
+    // this next line may be useless, updating front end where user can't decrement if they have one product
     if (cartItem.quantity === 0) {
       res.json(await cartItem.destroy());
     } else {
@@ -153,6 +172,6 @@ router.post('/:userId/checkout', async (req, res, next) => {
     })
     res.sendStatus(200);
   } catch (err) {
-    next(err)
+    next(err);
   }
-})
+});
