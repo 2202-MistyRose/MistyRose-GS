@@ -41,11 +41,13 @@ export default function AllProducts() {
   }, []);
 
   const { products } = useSelector((state) => state.products);
-
+  console.log(products, 'products');
+  const phones = products.filter((product) => product.category === 'Phone');
+  console.log(phones, 'phones');
   // basic jsx, will edit with materialui
   return (
     <div className="">
-      <h2>Shop All Products!</h2>
+      <h2>Shop Phones!</h2>
       <div className="">
         <Container maxWidth="lg">
           <Banner />
@@ -55,37 +57,39 @@ export default function AllProducts() {
             spacing={4}
             direction="row"
             alignItems="center"
-            justify="center"
+            justifyContent="center"
           >
-            {products.map((product) => (
-              <Grid item xs={12} md={6}>
-                <Paper>
-                  <Link to={`/products/${product.id}`}>
-                    <div key={product.id} className="">
-                      <Grid item xs={12} md={6}>
-                        <Typography component="span" variant="h3">
-                          {product.name}
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={12} md={6}>
-                        <img src={product.imageUrl} style={{ height: 300 }} />
-                      </Grid>
-                      <Grid item xs={8}>
-                        <Typography component="span" variant="h6">
-                          {product.description}
-                        </Typography>
-                      </Grid>
-                      <button
-                        className="hero-banner-button"
-                        onClick={() => dispatch(addToCart({ product, user }))}
-                      >
-                        Add to Cart
-                      </button>
-                    </div>
-                  </Link>
-                </Paper>
-              </Grid>
-            ))}
+            {phones.map((product) => {
+              return (
+                <Grid item xs={12} md={6}>
+                  <Paper>
+                    <Link to={`/products/${product.id}`}>
+                      <div key={product.id} className="">
+                        <Grid item xs={12} md={6}>
+                          <Typography component="span" variant="h3">
+                            {product.name}
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                          <img src={product.imageUrl} style={{ height: 300 }} />
+                        </Grid>
+                        <Grid item xs={8}>
+                          <Typography component="span" variant="h6">
+                            {product.description}
+                          </Typography>
+                        </Grid>
+                        <button
+                          className="hero-banner-button"
+                          onClick={() => dispatch(addToCart({ product, user }))}
+                        >
+                          Add to Cart
+                        </button>
+                      </div>
+                    </Link>
+                  </Paper>
+                </Grid>
+              );
+            })}
           </Grid>
         </Container>
       </div>

@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getSingleProduct } from '../store/singleProduct';
-import Footer from './Footer';
 import { Grid, makeStyles } from '@material-ui/core';
 
 function SingleProduct() {
@@ -30,17 +29,6 @@ function SingleProduct() {
 
   return (
     <>
-      {/* <div className="hero-banner-container">
-        <div>
-          <h4 className="product-style">{`$${product.price}`}</h4>
-          <h1>{product.name}</h1>
-          <img
-            src={product.imageUrl}
-            alt={product.name}
-            className="hero-banner-image"
-          />
-        </div>
-      </div> */}
       <Grid container className={classes.root} spacing={2}>
         <Grid item xs={12} md={6}>
           <img src={product.imageUrl} alt={product.name} />
@@ -63,7 +51,6 @@ function SingleProduct() {
           <p>{product.category}</p>
         </Grid>
       </Grid>
-      <Footer />
     </>
   );
 }
