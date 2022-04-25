@@ -1,3 +1,4 @@
+
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import history from "../history";
@@ -32,7 +33,8 @@ const AuthForm = ({ name, displayName }) => {
 
   return (
     <div>
-      {displayName === "Sign Up" ? (
+      // modal opening tag
+      {displayName === 'Sign Up' ? (
         <form onSubmit={handleSignup} name={name}>
           <div>
             <label htmlFor="username">
