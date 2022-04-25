@@ -1,6 +1,8 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { authenticate, me, register } from '../store/auth.slice';
+
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import history from "../history";
+import { authenticate, me, register } from "../store/auth.slice";
 
 const AuthForm = ({ name, displayName }) => {
   const { error } = useSelector((state) => state.auth);
@@ -16,6 +18,7 @@ const AuthForm = ({ name, displayName }) => {
     const username = evt.target.username.value;
     const password = evt.target.password.value;
     dispatch(authenticate({ username, password, formName }));
+    history.push("/");
   };
 
   const handleSignup = (evt) => {
@@ -25,6 +28,7 @@ const AuthForm = ({ name, displayName }) => {
     const password = evt.target.password.value;
     const email = evt.target.email.value;
     dispatch(register({ username, password, email, formName }));
+    history.push("/");
   };
 
   return (

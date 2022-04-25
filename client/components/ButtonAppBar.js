@@ -11,9 +11,11 @@ import { Link } from 'react-router-dom';
 import { logout } from '../store/auth.slice';
 import { styled } from '@material-ui/core/styles';
 
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    backgroundColor: "#1d1d1f",
   },
   menuButton: {
     marginRight: theme.spacing(-5),
@@ -26,12 +28,13 @@ const useStyles = makeStyles((theme) => ({
 export default function ButtonAppBar() {
   const classes = useStyles();
 
-  const { success } = useSelector((state) => state.auth);
+  const { user, success } = useSelector((state) => state.auth);
+  console.log("this is", user);
   const dispatch = useDispatch();
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar className={classes.root} position="static">
         <Toolbar>
           <Link to="/">
             <img
@@ -60,10 +63,12 @@ export default function ButtonAppBar() {
           </Typography>
           <Button color="inherit">Login</Button>
           {success ? (
+
             <div>
               {/* The navbar will show these links after you log in */}
-              <Link to="/home">Home</Link>
-              <Link to="/products">Products</Link>
+              <Link to={user.userRole === "Admin" ? "/admin" : "/profile"}>
+                Profile
+              </Link>
               <a href="#" onClick={() => dispatch(logout())}>
                 Logout
               </a>
