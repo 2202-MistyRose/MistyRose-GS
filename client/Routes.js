@@ -1,16 +1,16 @@
-
-import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { Route, Switch, Redirect } from "react-router-dom";
-import { me } from "./store/auth.slice";
-import { Login, Signup } from "./components/AuthForm";
-import Home from "./components/Home";
-import AllProducts from "./components/AllProducts";
-import Cart from "./components/Cart";
-import SingleProduct from "./components/SingleProduct";
-import Checkout from "./components/Checkout";
-import AdminView from "./components/AdminDash/AdminView";
-import Profile from "./components/CustomerProfile/Profile";
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { Route, Switch, Redirect } from 'react-router-dom';
+import Hero from './components/Hero';
+import { me } from './store/auth.slice';
+import { Login, Signup } from './components/AuthForm';
+import Home from './components/Home';
+import AllProducts from './components/AllProducts';
+import Cart from './components/Cart';
+import SingleProduct from './components/SingleProduct';
+import Checkout from './components/Checkout';
+import AdminView from './components/AdminDash/AdminView';
+import Profile from './components/CustomerProfile/Profile';
 
 /**
  * COMPONENT
