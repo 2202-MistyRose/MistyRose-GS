@@ -32,10 +32,7 @@ const Routes = () => {
         <Route path="/users/:userId/checkout" component={Checkout} />
         <Route path="/login">{Login}</Route>
         <Route path="/signup">{Signup}</Route>
-<<<<<<< HEAD
-=======
         {/* <Route path="/newhome" exact component={Hero} /> */}
->>>>>>> 96a1e04e3c428f9b7ead0b4b502e86f2a2242d45
         <Route path="/admin" component={AdminView} />
         <Route exact path="/profile" component={Profile} />
         <Redirect to="/home" />
