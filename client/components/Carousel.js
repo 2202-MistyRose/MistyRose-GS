@@ -1,6 +1,6 @@
-import React from 'react';
-import { useSelector, useEffect } from 'react-redux';
-import { productsFetch } from '../store/allProducts';
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { productsFetch } from "../store/allProducts";
 
 const Carousel = () => {
   const { products } = useSelector((state) => state.products);
