@@ -50,11 +50,11 @@ const Hero = () => {
                 />
                 <p className="product-name">{product.name}</p>
                 <p className="product-price">${product.price}</p>
-                {/* <p>{product.description}</p> */}
               </div>
             </Link>
           ))}
         </div>
+        <Footer />
       </>
     </div>
   );

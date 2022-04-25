@@ -109,9 +109,7 @@ span.text-red {
   transform: scale(1, 1);
   transition: transform 0.5s ease;
   color: #324d67;
-}
-.product-card:hover {
-  transform: scale(1.1, 1.1);
+  border-radius: 15px;
 }
 .product-image {
   border-radius: 15px;
@@ -119,6 +117,12 @@ span.text-red {
   transform: scale(1, 1);
   transition: transform 0.5s ease;
 }
+.product-image:hover {
+  transform: scale(1.1, 1.1);
+}
+/* .product-card:hover {
+  transform: scale(1.1, 1.1);
+} */
 
 .product-name {
   font-weight: 500;
@@ -153,6 +157,31 @@ span.text-red {
   font-weight: 500;
   cursor: pointer;
   z-index: 10000 !important;
+}
+
+.hero-banner-container button:hover {
+  animation: vibrate-1 0.3s linear infinite both;
+}
+
+@keyframes vibrate-1 {
+  0% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    transform: translate(-2px, -2px);
+  }
+  60% {
+    transform: translate(2px, 2px);
+  }
+  80% {
+    transform: translate(2px, -2px);
+  }
+  100% {
+    transform: translate(0);
+  }
 }
 
 .hero-banner-container h3 {
@@ -543,14 +572,24 @@ span.text-red {
 }
 .footer-banner-container {
   padding: 100px 40px;
-  background-color: #f02d34;
-  border-radius: 15px;
+  background-color: #3f51b5;
   position: relative;
   height: 400px;
   line-height: 1;
   color: white;
   width: 100%;
   margin-top: 120px;
+}
+
+.single-product-footer-banner-container {
+  padding: 100px 40px;
+  background-color: #3f51b5;
+  position: relative;
+  height: 400px;
+  line-height: 1;
+  color: white;
+  width: 100%;
+  /* margin-top: 120px; */
 }
 .banner-desc {
   display: flex;

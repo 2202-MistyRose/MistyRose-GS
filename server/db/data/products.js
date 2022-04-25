@@ -15,7 +15,7 @@ const products = [
     category: 'Phone',
     price: 800,
     stock: 35,
-    imageUrl: '/images/ipear2.png',
+    imageUrl: '/images/ipear15.png',
   },
   {
     name: 'iPear 1',
@@ -33,7 +33,7 @@ const products = [
     category: 'Accessories',
     price: 500,
     stock: 125,
-    imageUrl: '/images/watch.png',
+    imageUrl: '/images/watch1.png',
   },
   {
     name: 'Pear Mac 4',
@@ -43,6 +43,24 @@ const products = [
     price: 1500,
     stock: 25,
     imageUrl: '/images/macpear.png',
+  },
+  {
+    name: 'Pear Mac 5',
+    description:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    category: 'Laptop',
+    price: 1500,
+    stock: 25,
+    imageUrl: '/images/macPear4.jpg',
+  },
+  {
+    name: 'Pear Mac 6',
+    description:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    category: 'Laptop',
+    price: 1500,
+    stock: 25,
+    imageUrl: '/images/pearmac2.png',
   },
 ];
 
