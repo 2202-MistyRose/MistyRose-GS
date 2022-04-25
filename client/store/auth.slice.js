@@ -16,7 +16,7 @@ const initialState = {
 export const me = createAsyncThunk("auth/me", async () => {
   const token = window.localStorage.getItem(TOKEN);
   if (token) {
-    const res = await axios.get('/auth/me', {
+    const res = await axios.get("/auth/me", {
       headers: {
         authorization: token,
       },
@@ -38,6 +38,7 @@ export const register = createAsyncThunk(
       window.localStorage.setItem(TOKEN, res.data.token);
       dispatch(me());
     } catch (error) {
+      console.error(error);
       return rejectWithValue(error);
     }
   }
@@ -55,19 +56,20 @@ export const authenticate = createAsyncThunk(
       window.localStorage.setItem(TOKEN, res.data.token);
       dispatch(me());
     } catch (error) {
+      console.error(error);
       return rejectWithValue(error);
     }
   }
 );
-
 
 export const logout = createAsyncThunk("auth/logout", async () => {
   window.localStorage.removeItem(TOKEN);
   history.push("/login");
 });
 
+// Slice reducer - action creators and types are generated here
 const authSlice = createSlice({
-  name: 'auth',
+  name: "auth",
   initialState,
   reducers: {},
   extraReducers: {
