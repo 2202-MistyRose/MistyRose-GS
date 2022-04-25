@@ -1,27 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import "../../public/styles/style.css";
 import { useSelector, useDispatch } from "react-redux";
 import { productsFetch } from "../store/allProducts";
-import { getSingleProduct } from "../store/singleProduct";
 import Banner from "./banner";
-import Carousel from "./Carousel";
-import CartArea from "./CartArea";
 import Footer from "./Footer";
-import FooterBanner from "./FooterBanner";
 import { Link } from "react-router-dom";
 
 const Hero = () => {
-  // const [initialState, setInitialState] = useState('whatever intial state you want');
   const { products } = useSelector((state) => state.products);
-  const { product } = useSelector((state) => state.product);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(productsFetch());
-  }, []);
-
-  useEffect(() => {
-    dispatch(getSingleProduct(1));
   }, []);
 
   useEffect(() => {}, []);
@@ -41,7 +31,7 @@ const Hero = () => {
         <div className="products-container">
           {products?.map((product) => (
             <Link to={`/products/${product.id}`} key={product.id}>
-              <div className="product-card">
+              <div className="product-card" key={product.id}>
                 <img
                   src={product.imageUrl}
                   width={250}

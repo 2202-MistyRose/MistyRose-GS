@@ -25,7 +25,6 @@ export default function ButtonAppBar() {
   const classes = useStyles();
 
   const { user, success } = useSelector((state) => state.auth);
-  console.log(user);
   const dispatch = useDispatch();
 
   return (
