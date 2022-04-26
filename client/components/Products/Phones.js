@@ -6,7 +6,7 @@ import Container from '@material-ui/core/Container';
 import { addToCart } from '../../store/userCart';
 import { Grid, makeStyles, Paper } from '@material-ui/core';
 import { Link } from 'react-router-dom';
-import Banner from '../banner';
+import Banner from '../Banner';
 
 export default function AllProducts() {
   const dispatch = useDispatch();
