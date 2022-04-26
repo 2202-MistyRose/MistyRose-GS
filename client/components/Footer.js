@@ -10,14 +10,7 @@ const Footer = () => {
           <h3>while supplies last.</h3>
           <p>Offer expires 5/5/2020</p>
         </div>
-        <div className="right">
-          <img
-            src="/images/pearpng.png"
-            alt="pear"
-            className="pear-image"
-            height={250}
-          />
-        </div>
+        <div className="right"></div>
       </div>
     </div>
   );
