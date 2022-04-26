@@ -42,7 +42,7 @@ const products = [
     category: 'Laptop',
     price: 1500,
     stock: 25,
-    imageUrl: '/images/macpear.png',
+    imageUrl: '/images/newmac.png',
   },
   {
     name: 'Pear Mac 5',

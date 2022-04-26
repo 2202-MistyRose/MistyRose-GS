@@ -34,7 +34,6 @@ export default function AllProducts() {
 
   return (
     <div className="">
-      <h2>Shop All Products!</h2>
       <div className="">
         <Container maxWidth="lg">
           <Banner />

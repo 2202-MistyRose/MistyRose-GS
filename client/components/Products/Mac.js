@@ -3,12 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { productsFetch } from '../../store/allProducts';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-import { styled } from '@material-ui/core/styles';
 import { addToCart } from '../../store/userCart';
 import { Grid, makeStyles, Paper } from '@material-ui/core';
 import { Link } from 'react-router-dom';
-// add mac specific banner
-// import Banner from './banner';
+import MacBanner from '../MacBanner';
 
 export default function AllProducts() {
   const dispatch = useDispatch();
@@ -18,7 +16,6 @@ export default function AllProducts() {
       flexGrow: 1,
     },
     paper: {
-      // padding: 20,
       height: 250,
       width: 250,
     },
@@ -38,9 +35,9 @@ export default function AllProducts() {
   const mac = products.filter((product) => product.category === 'Laptop');
   return (
     <div className="">
-      <h2>Shop Phones!</h2>
       <div className="">
         <Container maxWidth="lg">
+          <MacBanner />
           <Grid
             container
             className={classes.root}
@@ -54,7 +51,7 @@ export default function AllProducts() {
                 <Grid item xs={12} md={6}>
                   <Paper>
                     <div key={product.id} className="">
-                      <Grid item xs={12} md={6}>
+                      <Grid item xs={12} md={12}>
                         <Link to={`/products/${product.id}`}>
                           <Typography component="span" variant="h3">
                             {product.name}

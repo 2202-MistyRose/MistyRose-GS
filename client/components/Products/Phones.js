@@ -35,7 +35,6 @@ export default function AllProducts() {
   console.log(phones, 'phones');
   return (
     <div className="">
-      <h2>Shop Phones!</h2>
       <div className="">
         <Container maxWidth="lg">
           <Banner />
