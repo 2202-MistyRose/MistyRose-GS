@@ -23,8 +23,24 @@ export const fetchUsers = createAsyncThunk(
   }
 );
 
+export const updateUser = createAsyncThunk(
+  "users/updateUser",
+  async (formInfo, { rejectWithValue }) => {
+    try {
+      console.log(formData);
+      const { formData, user } = formInfo;
+      const { id } = user;
+      const res = await axios.put(`/api/users/${id}`, formData);
+      return res.data;
+    } catch (error) {
+      console.log("Can't update this user", error);
+      return rejectWithValue(error);
+    }
+  }
+);
+
 export const removeUser = createAsyncThunk(
-  "user/removeUser",
+  "users/removeUser",
   async (id, { rejectWithValue }) => {
     try {
       const res = await axios.delete(`/api/users/${id}`);
@@ -50,6 +66,22 @@ const usersSlice = createSlice({
       state.isSuccess = true;
     },
     [fetchUsers.rejected]: (state) => {
+      state.isLoading = false;
+      state.isError = true;
+    },
+    [updateUser.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [updateUser.fulfilled]: (state, action) => {
+      const index = state.users.findIndex(
+        (user) => user.id === action.payload.id
+      );
+      state.users[index] = {
+        ...state.users[index],
+        ...action.payload,
+      };
+    },
+    [updateUser.rejected]: (state) => {
       state.isLoading = false;
       state.isError = true;
     },

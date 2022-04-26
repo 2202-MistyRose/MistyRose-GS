@@ -1,18 +1,21 @@
-import React, { useEffect } from "react";
-import Link from "@material-ui/core/Link";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Button from "@material-ui/core/Button";
+import {
+  Link,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Button,
+  Switch,
+  FormGroup,
+  FormControlLabel,
+} from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
-import VisibilityIcon from "@material-ui/icons/Visibility";
 import Title from "../Title";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUsers } from "../../../store/users.slice";
-import { removeUser } from "../../../store/users.slice";
+import { fetchUsers, updateUser, removeUser } from "../../../store/users.slice";
 
 const useStyles = makeStyles((theme) => ({
   seeMore: {
@@ -25,9 +28,21 @@ export default function CustomerList() {
   const dispatch = useDispatch();
   const { users } = useSelector((state) => state.users);
 
+  const [admin, setAdmin] = useState(false);
+
+  console.log(admin);
+
   useEffect(() => {
     dispatch(fetchUsers());
   }, []);
+
+  const handleChange = (e) => {
+    e.preventDefault();
+    setAdmin((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.checked,
+    }));
+  };
 
   function preventDefault(event) {
     event.preventDefault();
@@ -39,28 +54,32 @@ export default function CustomerList() {
       <Table size="small">
         <TableHead>
           <TableRow>
-            <TableCell>View</TableCell>
             <TableCell>First Name</TableCell>
             <TableCell>Last Name</TableCell>
             <TableCell>Address</TableCell>
             <TableCell>Username</TableCell>
             <TableCell>Email</TableCell>
+            <TableCell>Admin</TableCell>
             <TableCell align="right">Remove</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {users.map((user) => (
             <TableRow key={user.id}>
-              <TableCell>
-                <Button>
-                  <VisibilityIcon />
-                </Button>
-              </TableCell>
               <TableCell>Placeholder</TableCell>
               <TableCell>Placeholder</TableCell>
               <TableCell>Placeholder</TableCell>
               <TableCell>{user.username}</TableCell>
               <TableCell>{user.email}</TableCell>
+              <TableCell>
+                <FormGroup row>
+                  <FormControlLabel
+                    onChange={handleChange}
+                    name="isAdmin"
+                    control={<Switch />}
+                  />
+                </FormGroup>
+              </TableCell>
               <TableCell align="right">
                 <Button onClick={() => dispatch(removeUser(user.id))}>
                   <DeleteIcon />

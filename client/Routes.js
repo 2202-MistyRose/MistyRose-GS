@@ -36,9 +36,7 @@ const Routes = () => {
         <Route path="/signup">{Signup}</Route>
         <Route path="/phones" component={Phones} />
         <Route path="/mac" component={Mac} />
-
-        {/* <Route path="/newhome" exact component={Hero} /> */}
-        <Route path="/admin" component={AdminView} />
+        <Route exact path="/admin" component={AdminView} />
         <Route exact path="/profile" component={Profile} />
         <Redirect to="/home" />
       </Switch>

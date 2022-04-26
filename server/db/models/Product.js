@@ -12,19 +12,20 @@ const Product = db.define("product", {
   },
   category: {
     type: Sequelize.STRING,
-    allowNull: false,
+    defaultValue: "Phone",
   },
   price: {
     type: Sequelize.DECIMAL,
-    allowNull: false,
+    defaultValue: 0,
   },
   stock: {
     type: Sequelize.INTEGER,
-    allowNull: false,
+    defaultValue: 0,
   },
   imageUrl: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
+    defaultValue: "/images/defaultPic.jpg",
   },
 });
 

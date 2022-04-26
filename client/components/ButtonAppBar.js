@@ -1,16 +1,16 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import { Link } from 'react-router-dom';
-import { logout } from '../store/auth.slice';
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { makeStyles } from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import { Link } from "react-router-dom";
+import { logout } from "../store/auth.slice";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    backgroundColor: '#1d1d1f',
+    backgroundColor: "#1d1d1f",
   },
   menuButton: {
     marginRight: theme.spacing(-5),
@@ -33,11 +33,11 @@ export default function ButtonAppBar() {
           <Link to="/">
             <img
               style={{
-                height: '2.5em',
-                width: '1.8em',
+                height: "2.5em",
+                width: "1.8em",
 
-                marginLeft: '2em',
-                marginRight: '13em',
+                marginLeft: "2em",
+                marginRight: "13em",
               }}
               src="/images/pearpng.png"
             />
@@ -57,9 +57,7 @@ export default function ButtonAppBar() {
           {user ? (
             <div>
               {/* The navbar will show these links after you log in */}
-              <Link to={user.userRole === 'Admin' ? '/admin' : '/profile'}>
-                Profile
-              </Link>
+              <Link to={user.isAdmin ? "/admin" : "/profile"}>Profile</Link>
               <a href="#" onClick={() => dispatch(logout())}>
                 Logout
               </a>

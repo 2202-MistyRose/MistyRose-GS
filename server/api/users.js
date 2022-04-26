@@ -1,6 +1,4 @@
 const router = require("express").Router();
-// const { NetworkCell } = require("@material-ui/icons");
-const { user } = require("pg/lib/defaults");
 const {
   models: { User, Order, OrderItem, Product },
 } = require("../db");
@@ -25,7 +23,7 @@ router.get("/", async (req, res, next) => {
       // users' passwords are encrypted, it won't help if we just
       // send everything to anyone who asks!
       // attributes: ["id", "username"],
-      attributes: ["id", "username", "email", "userRole"],
+      attributes: ["id", "username", "email", "isAdmin"],
     });
     res.json(users);
   } catch (err) {
@@ -33,17 +31,21 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-// create a post route for users
-router.post("/", async (req, res, next) => {
+// PUT /api/users/:id
+router.put("/:id", async (req, res, next) => {
   try {
-    const user = await User.create(req.body);
-    res.json(user);
+    const user = await User.findOne({
+      where: {
+        id: req.params.id,
+      },
+    });
+    res.send(await user.update(req.body));
   } catch (err) {
     next(err);
   }
 });
 
-// delete user
+// DELETE /api/users/:id
 router.delete("/:id", async (req, res, next) => {
   try {
     const user = await User.findOne({
@@ -51,7 +53,6 @@ router.delete("/:id", async (req, res, next) => {
         id: req.params.id,
       },
     });
-    console.log(user);
     await user.destroy();
     res.send(user);
   } catch (err) {
@@ -149,7 +150,7 @@ router.delete("/:userId/cart", async (req, res, next) => {
 });
 
 // checkout
-router.post('/:userId/checkout', async (req, res, next) => {
+router.post("/:userId/checkout", async (req, res, next) => {
   try {
     const order = await Order.findOne({
       where: {
@@ -158,18 +159,21 @@ router.post('/:userId/checkout', async (req, res, next) => {
       },
     });
     // inactivate their order
-    order.update({...order, status: false})
+    order.update({ ...order, status: false });
     // create new empty order for them to keep shopping
-    Order.create({userId: req.params.userId})
+    Order.create({ userId: req.params.userId });
     // cart is passed in req body
-    req.body.forEach(async item => {
+    req.body.forEach(async (item) => {
       let product = await Product.findOne({
         where: {
-          id: item.productId
-        }
-      })
-      await product.update({...product, stock: product.stock - item.quantity})
-    })
+          id: item.productId,
+        },
+      });
+      await product.update({
+        ...product,
+        stock: product.stock - item.quantity,
+      });
+    });
     res.sendStatus(200);
   } catch (err) {
     next(err);
