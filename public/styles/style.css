@@ -617,8 +617,6 @@ span.text-red {
 }
 .footer-banner-image {
   position: absolute;
-  /* top: -35%;
-  left: 8%; */
   top: -25%;
   left: 25%;
 }
@@ -657,6 +655,7 @@ span.text-red {
 
 .footer-container {
   color: #324d67;
+  bottom: 0;
   text-align: center;
   margin-top: 20px;
   padding: 30px 10px;
