@@ -10,7 +10,6 @@ const User = db.define("user", {
   username: {
     type: Sequelize.STRING,
     unique: true,
-    allowNull: false,
   },
   password: {
     type: Sequelize.STRING,
@@ -18,15 +17,13 @@ const User = db.define("user", {
   email: {
     type: Sequelize.STRING,
     unique: true,
-    allowNull: true,
     validate: {
       isEmail: true,
     },
   },
-  userRole: {
-    type: Sequelize.ENUM,
-    values: ["Admin", "Customer"],
-    defaultValue: "Customer",
+  isAdmin: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false,
   },
 });
 

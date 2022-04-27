@@ -1,3 +1,4 @@
+<<<<<<< HEAD:client/components/SingleProduct.js
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -5,6 +6,13 @@ import { getSingleProduct } from '../store/singleProduct';
 import { addToCart } from '../store/userCart';
 import Footer from './Footer';
 import { Grid, makeStyles, Button } from '@material-ui/core';
+=======
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { getSingleProduct } from "../../store/singleProduct";
+import { Grid, makeStyles } from "@material-ui/core";
+>>>>>>> c506dcf632bdaacd61219ae3a1a3b8ced4b04fd5:client/components/Products/SingleProduct.js
 
 function SingleProduct() {
   const { productId } = useParams();
@@ -56,7 +64,6 @@ function SingleProduct() {
           <p>{product.category}</p>
         </Grid> */}
       </Grid>
-      <Footer />
     </>
   );
 }

@@ -1,32 +1,53 @@
 const router = require("express").Router();
-const req = require("express/lib/request");
-// const { NetworkCell } = require("@material-ui/icons");
-const { user } = require("pg/lib/defaults");
 const {
   models: { User, Order, OrderItem, Product },
-} = require("../db");
+} = require('../db');
 module.exports = router;
 const { requireToken, isAdmin } = require("../utilities");
 
 router.get("/", isAdmin, async (req, res, next) => {
   try {
-    // need to pass in a token in headers to this request for isAdmin to work
-    const isAdmin = req.isAdmin;
-    if (isAdmin) {
-      const users = await User.findAll({
-        attributes: ["id", "username", "email", "userRole"],
-      });
-      res.json(users);
-    } else {
-      throw "you are not permitted to view users!";
-    }
+    const token = req.headers.authorization;
+    const user = await User.findByToken(token);
+    req.user = user;
+    next();
+  } catch (err) {
+    next(err);
+  }
+};
+
+router.get('/', async (req, res, next) => {
+  try {
+    const users = await User.findAll({
+      // explicitly select only the id and username fields - even though
+      // users' passwords are encrypted, it won't help if we just
+      // send everything to anyone who asks!
+      // attributes: ["id", "username"],
+      attributes: ["id", "username", "email", "isAdmin"],
+    });
+    res.json(users);
   } catch (err) {
     next(err);
   }
 });
 
-// delete user
+// PUT /api/users/:id
+router.put("/:id", async (req, res, next) => {
+  try {
+    const user = await User.findOne({
+      where: {
+        id: req.params.id,
+      },
+    });
+    res.send(await user.update(req.body));
+  } catch (err) {
+    next(err);
+  }
+});
+
+// DELETE /api/users/:id
 router.delete("/:id", async (req, res, next) => {
+
   try {
     const user = await User.findOne({
       where: {
@@ -41,7 +62,7 @@ router.delete("/:id", async (req, res, next) => {
 });
 
 // get signed-in user cart
-router.get("/:userId/cart", requireToken, async (req, res, next) => {
+router.get('/:userId/cart', requireToken, async (req, res, next) => {
   try {
     // added this so it won't return another user's cart
     const user = req.user;
@@ -97,7 +118,7 @@ router.put("/:userId/cart", requireToken, async (req, res, next) => {
   }
 });
 
-router.delete("/:userId/cart", async (req, res, next) => {
+router.delete('/:userId/cart', async (req, res, next) => {
   try {
     // const user = req.user;
     // if (user.id !== Number(req.params.userId)) {

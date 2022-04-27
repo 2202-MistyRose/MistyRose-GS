@@ -3,6 +3,9 @@
   "version": "2.0.0",
   "description": "E-commerce site that sells tech products. Better than Apple",
   "main": "index.js",
+  "engines": {
+    "node": "16.x"
+  },
   "scripts": {
     "build": "webpack",
     "build:dev": "npm run build -- --watch --mode=development",

@@ -12,6 +12,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     backgroundColor: "#1d1d1f",
   },
+  // love this stuff
   menuButton: {
     marginRight: theme.spacing(-5),
   },
@@ -47,10 +48,10 @@ export default function ButtonAppBar() {
             <Link to="/products">Store</Link>
           </Typography>
           <Typography variant="h6" className={classes.title}>
-            <Link to="/">Phones</Link>
+            <Link to="/phones">Phones</Link>
           </Typography>
           <Typography variant="h6" className={classes.title}>
-            Mac
+            <Link to="/mac">Mac</Link>
           </Typography>
           <Typography variant="h6" className={classes.title}>
             Accessories
@@ -58,16 +59,13 @@ export default function ButtonAppBar() {
           {user ? (
             <div>
               {/* The navbar will show these links after you log in */}
-              <Link to={user.userRole === "Admin" ? "/admin" : "/profile"}>
-                Profile
-              </Link>
+              <Link to={user.isAdmin ? "/admin" : "/profile"}>Profile</Link>
               <a href="#" onClick={() => dispatch(logout())}>
                 Logout
               </a>
             </div>
           ) : (
             <div>
-              {/* The navbar will show these links before you log in */}
               <Link to="/login">Login</Link>
               <Link to="/signup">Sign Up</Link>
             </div>

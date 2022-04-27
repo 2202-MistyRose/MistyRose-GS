@@ -7,7 +7,7 @@ const AdminView = () => {
   const { user } = useSelector((state) => state.auth);
   return (
     <div>
-      {user.userRole === "Admin" ? (
+      {user.isAdmin ? (
         <div>
           <DashboardBar />
           <VerticalTabs />
