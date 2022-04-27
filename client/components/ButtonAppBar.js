@@ -60,7 +60,7 @@ export default function ButtonAppBar() {
             <div className={classes.root}>
               <Grid container spacing={1}>
                 <Grid item xs={6} md={4}>
-                  <Link to={user.userRole === 'Admin' ? '/admin' : '/profile'}>
+                  <Link to={user.isAdmin ? '/admin' : '/profile'}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       height="24px"
