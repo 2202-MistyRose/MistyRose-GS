@@ -33,7 +33,7 @@ export default function Chart() {
   return (
     <React.Fragment>
       <Title>Today</Title>
-      <ResponsiveContainer>
+      <ResponsiveContainer height={400} width={700} aspect={2}>
         <LineChart
           data={data}
           margin={{
