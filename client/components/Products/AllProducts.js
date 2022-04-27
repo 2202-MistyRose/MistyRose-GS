@@ -40,30 +40,32 @@ export default function AllProducts() {
           <Grid container spacing={4}>
             {products.map((product) => (
               <Grid item xs={12} md={6} key={product.id}>
-                <Paper>
-                  <Link to={`/products/${product.id}`}>
-                    <div key={product.id} className="">
-                      <Grid item xs={12} md={6}>
+                <Paper key={product.id}>
+                  <div key={product.id} className="">
+                    <Grid item xs={12} md={6}>
+                      <Link to={`/products/${product.id}`}>
                         <Typography component="span" variant="h3">
                           {product.name}
                         </Typography>
-                      </Grid>
-                      <Grid item xs={12} md={6}>
+                      </Link>
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                      <Link to={`/products/${product.id}`}>
                         <img src={product.imageUrl} style={{ height: 300 }} />
-                      </Grid>
-                      <Grid item xs={8}>
-                        <Typography component="span" variant="h6">
-                          {product.description}
-                        </Typography>
-                      </Grid>
-                      <button
-                        className="hero-banner-button"
-                        onClick={() => dispatch(addToCart({ product, user }))}
-                      >
-                        Add to Cart
-                      </button>
-                    </div>
-                  </Link>
+                      </Link>
+                    </Grid>
+                    <Grid item xs={8}>
+                      <Typography component="span" variant="h6">
+                        {product.description}
+                      </Typography>
+                    </Grid>
+                    <button
+                      className="hero-banner-button"
+                      onClick={() => dispatch(addToCart({ product, user }))}
+                    >
+                      Add to Cart
+                    </button>
+                  </div>
                 </Paper>
               </Grid>
             ))}

@@ -1,3 +1,4 @@
+
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -8,6 +9,7 @@ import Footer from "../Footer";
 import { Grid, makeStyles, Button } from "@material-ui/core";
 
 function SingleProduct() {
+  const { user } = useSelector((state) => state.auth);
   const { productId } = useParams();
   const dispatch = useDispatch();
   const { product } = useSelector((state) => state.product);
@@ -41,6 +43,7 @@ function SingleProduct() {
         <Grid style={{ padding: 50 }} item xs={12} md={6} className="">
           <h1>{product.name}</h1>
           <h2>from ${product.price} or $xx.xx/mo. for 24 mo.</h2>
+
 
           <Button
             onClick={() => dispatch(addToCart({ product, user }))}

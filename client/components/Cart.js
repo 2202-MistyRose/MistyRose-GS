@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   fetchCart,
   removeFromCart,
@@ -37,17 +37,9 @@ export default function Cart() {
     dispatch(updateQuantity({ item, userId }));
   }
 
-  // const totalPrice =
-  //   cart.length === 0
-  //     ? 0
-  //     : cart.reduce((total, item) => {
-  //         return total + item.product.price * item.quantity;
-  //       }, 0);
-
-  console.log("this is cart", cart);
-
   return (
     <div className="cart">
+
       {cart.length ? (
         <Typography align="center" variant="h3" style={{ margin: "30px" }}>
           Cart
