@@ -54,7 +54,7 @@ export default function ButtonAppBar() {
             <Link to="/mac">Mac</Link>
           </Typography>
           <Typography variant="h6" className={classes.title}>
-            Accessories
+            <Link to="/accessories">Accessories</Link>
           </Typography>
           {user ? (
             <div className={classes.root}>

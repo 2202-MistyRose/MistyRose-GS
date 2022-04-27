@@ -3,19 +3,19 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getSingleProduct } from '../store/singleProduct';
 
-const MacBanner = () => {
+const AccBanner = () => {
   const { product } = useSelector((state) => state.product);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getSingleProduct(5));
+    dispatch(getSingleProduct(4));
   }, []);
 
   return (
     <div style={{ marginBottom: '50px' }} className="hero-banner-container">
       <div>
         <h4 className="product-style">{`$${product.price}`}</h4>
-        <h3>#1 Laptop on the market!</h3>
+        <h3>#1 Accessories on the market!</h3>
         <h1>{product.name}</h1>
         <img
           src={product.imageUrl}
@@ -32,4 +32,4 @@ const MacBanner = () => {
   );
 };
 
-export default MacBanner;
+export default AccBanner;

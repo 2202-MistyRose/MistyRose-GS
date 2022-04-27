@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { productsFetch } from '../../store/allProducts';
+import { productsFetch } from '../store/allProducts';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-import { addToCart } from '../../store/userCart';
+import { addToCart } from '../store/userCart';
 import { Grid, makeStyles, Paper } from '@material-ui/core';
 import { Link } from 'react-router-dom';
-import Banner from '../Banner';
+import AccBanner from './AccBanner';
 
 export default function AllProducts() {
   const dispatch = useDispatch();
@@ -31,26 +31,40 @@ export default function AllProducts() {
   }, []);
 
   const { products } = useSelector((state) => state.products);
-
+  console.log(products, 'products');
+  const accessories = products.filter(
+    (product) => product.category === 'Accessories'
+  );
   return (
     <div className="">
       <div className="">
         <Container maxWidth="lg">
-          <Banner />
-          <Grid container spacing={4}>
-            {products.map((product) => (
-              <Grid item xs={12} md={6} key={product.id}>
-                <Paper>
-                  <Link to={`/products/${product.id}`}>
+          <AccBanner />
+          <Grid
+            container
+            className={classes.root}
+            spacing={4}
+            direction="row"
+            alignItems="center"
+            justifyContent="center"
+          >
+            {accessories.map((product) => {
+              return (
+                <Grid item xs={12} md={6}>
+                  <Paper>
                     <div key={product.id} className="">
-                      <Grid item xs={12} md={6}>
-                        <Typography component="span" variant="h3">
-                          {product.name}
-                        </Typography>
+                      <Grid item xs={12} md={12}>
+                        <Link to={`/products/${product.id}`}>
+                          <Typography component="span" variant="h3">
+                            {product.name}
+                          </Typography>
+                        </Link>
                       </Grid>
-                      <Grid item xs={12} md={6}>
-                        <img src={product.imageUrl} style={{ height: 300 }} />
-                      </Grid>
+                      <Link to={`/products/${product.id}`}>
+                        <Grid item xs={12} md={6}>
+                          <img src={product.imageUrl} style={{ height: 300 }} />
+                        </Grid>
+                      </Link>
                       <Grid item xs={8}>
                         <Typography component="span" variant="h6">
                           {product.description}
@@ -63,10 +77,10 @@ export default function AllProducts() {
                         Add to Cart
                       </button>
                     </div>
-                  </Link>
-                </Paper>
-              </Grid>
-            ))}
+                  </Paper>
+                </Grid>
+              );
+            })}
           </Grid>
         </Container>
       </div>

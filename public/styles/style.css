@@ -7,7 +7,6 @@ body,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   box-sizing: border-box;
   overflow-x: hidden;
-  color: red;
 }
 ::-webkit-scrollbar {
   width: 0px;
@@ -194,6 +193,7 @@ span.text-red {
   font-size: 10em;
   margin-left: 20px;
   text-transform: uppercase;
+  overflow-y: hidden;
 
   -webkit-animation: text-flicker-in-glow 2s linear both;
   animation: text-flicker-in-glow 2s linear both;
