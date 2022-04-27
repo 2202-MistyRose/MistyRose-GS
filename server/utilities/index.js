@@ -15,7 +15,7 @@ const isAdmin = async (req, res, next) => {
   try {
     const token = req.headers.authorization;
     const user = await User.findByToken(token);
-    req.isAdmin = user.userRole === 'Admin' ? true : false;
+    req.isAdmin = user.isAdmin;
   } catch (err) {
     next(err)
   }

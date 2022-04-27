@@ -39,7 +39,6 @@ export const addToCart = createAsyncThunk('cart/addToCart',
           let arr = [product]
           window.localStorage.setItem("cart", JSON.stringify(arr))
         } else {
-          console.log(cart)
           let arr = JSON.parse(cart)
           arr.push(product)
           window.localStorage.setItem("cart", JSON.stringify(arr))
