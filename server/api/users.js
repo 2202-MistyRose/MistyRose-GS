@@ -1,43 +1,25 @@
 const router = require("express").Router();
+const req = require("express/lib/request");
 // const { NetworkCell } = require("@material-ui/icons");
 const { user } = require("pg/lib/defaults");
 const {
   models: { User, Order, OrderItem, Product },
 } = require("../db");
 module.exports = router;
+const { requireToken, isAdmin } = require("../utilities");
 
-// making sure we keep track of which user is signed in
-const requireToken = async (req, res, next) => {
+router.get("/", isAdmin, async (req, res, next) => {
   try {
-    const token = req.headers.authorization;
-    const user = await User.findByToken(token);
-    req.user = user;
-    next();
-  } catch (err) {
-    next(err);
-  }
-};
-
-router.get("/", async (req, res, next) => {
-  try {
-    const users = await User.findAll({
-      // explicitly select only the id and username fields - even though
-      // users' passwords are encrypted, it won't help if we just
-      // send everything to anyone who asks!
-      // attributes: ["id", "username"],
-      attributes: ["id", "username", "email", "userRole"],
-    });
-    res.json(users);
-  } catch (err) {
-    next(err);
-  }
-});
-
-// create a post route for users
-router.post("/", async (req, res, next) => {
-  try {
-    const user = await User.create(req.body);
-    res.json(user);
+    // need to pass in a token in headers to this request for isAdmin to work
+    const isAdmin = req.isAdmin;
+    if (isAdmin) {
+      const users = await User.findAll({
+        attributes: ["id", "username", "email", "userRole"],
+      });
+      res.json(users);
+    } else {
+      throw "you are not permitted to view users!";
+    }
   } catch (err) {
     next(err);
   }
@@ -51,7 +33,6 @@ router.delete("/:id", async (req, res, next) => {
         id: req.params.id,
       },
     });
-    console.log(user);
     await user.destroy();
     res.send(user);
   } catch (err) {
@@ -65,7 +46,7 @@ router.get("/:userId/cart", requireToken, async (req, res, next) => {
     // added this so it won't return another user's cart
     const user = req.user;
     if (user.id !== Number(req.params.userId)) {
-      throw Error("not valid user");
+      throw Error("not a valid user");
     }
 
     const order = await Order.findOne({
@@ -91,8 +72,12 @@ router.get("/:userId/cart", requireToken, async (req, res, next) => {
   }
 });
 
-router.put("/:userId/cart", async (req, res, next) => {
+router.put("/:userId/cart", requireToken, async (req, res, next) => {
   try {
+    const user = req.user;
+    if (user.id !== Number(req.params.userId)) {
+      throw Error("not a valid user");
+    }
     const order = await Order.findOne({
       where: {
         userId: req.params.userId,
@@ -106,12 +91,7 @@ router.put("/:userId/cart", async (req, res, next) => {
         productId: req.body.productId,
       },
     });
-    // this next line may be useless, updating front end where user can't decrement if they have one product
-    if (cartItem.quantity === 0) {
-      res.json(await cartItem.destroy());
-    } else {
-      res.json(await cartItem.update({ ...req.body }));
-    }
+    res.json(await cartItem.update({ ...req.body }));
   } catch (err) {
     next(err);
   }
@@ -119,12 +99,15 @@ router.put("/:userId/cart", async (req, res, next) => {
 
 router.delete("/:userId/cart", async (req, res, next) => {
   try {
+    // const user = req.user;
+    // if (user.id !== Number(req.params.userId)) {
+    //   throw Error('not a valid user')
+    // }
     const order = await Order.findOne({
       where: {
         userId: req.params.userId,
       },
     });
-
     if (req.body.item) {
       // removing from cart
       const item = await OrderItem.findOne({
@@ -149,7 +132,7 @@ router.delete("/:userId/cart", async (req, res, next) => {
 });
 
 // checkout
-router.post('/:userId/checkout', async (req, res, next) => {
+router.post("/:userId/checkout", async (req, res, next) => {
   try {
     const order = await Order.findOne({
       where: {
@@ -158,18 +141,21 @@ router.post('/:userId/checkout', async (req, res, next) => {
       },
     });
     // inactivate their order
-    order.update({...order, status: false})
+    order.update({ ...order, status: false });
     // create new empty order for them to keep shopping
-    Order.create({userId: req.params.userId})
+    Order.create({ userId: req.params.userId });
     // cart is passed in req body
-    req.body.forEach(async item => {
+    req.body.forEach(async (item) => {
       let product = await Product.findOne({
         where: {
-          id: item.productId
-        }
-      })
-      await product.update({...product, stock: product.stock - item.quantity})
-    })
+          id: item.productId,
+        },
+      });
+      await product.update({
+        ...product,
+        stock: product.stock - item.quantity,
+      });
+    });
     res.sendStatus(200);
   } catch (err) {
     next(err);
