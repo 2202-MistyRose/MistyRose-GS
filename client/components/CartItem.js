@@ -6,10 +6,9 @@ import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import ButtonBase from "@material-ui/core/ButtonBase";
 import DeleteIcon from "@material-ui/icons/Delete";
-import IconButton from '@material-ui/core/IconButton';
-import Icon from '@material-ui/core/Icon';
-import Box from "@material-ui/core/Box";
-
+import IconButton from "@material-ui/core/IconButton";
+import AddIcon from "@material-ui/icons/Add";
+import RemoveIcon from "@material-ui/icons/Remove";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,7 +37,7 @@ export default function CartItem(props) {
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <Grid container spacing={2} style={{marginBottom: '5px'}}>
+        <Grid container spacing={2} style={{ marginBottom: "5px" }}>
           <Grid item>
             <ButtonBase className={classes.image}>
               <img
@@ -65,17 +64,33 @@ export default function CartItem(props) {
                 <Typography variant="body2" style={{ cursor: "pointer" }}>
                   {/* <Icon color="primary">add_circle</Icon> */}
                   {/* {props.quantity > 1 ? <Button onClick={props.decrement}>-</Button> : null} */}
-                  {props.quantity > 1 ? <Button onClick={props.decrement}>-</Button> : <Button disabled={true}>-</Button>}
+                  {props.quantity > 1 ? (
+                    <Button onClick={props.decrement}>
+                      <RemoveIcon />
+                    </Button>
+                  ) : (
+                    <Button disabled={true}>
+                      <RemoveIcon />
+                    </Button>
+                  )}
 
-                  <Button onClick={props.increment}>+</Button>
-                  <IconButton aria-label="delete" className={classes.margin} onClick={props.remove} >
+                  <Button onClick={props.increment}>
+                    <AddIcon />
+                  </Button>
+                  <IconButton
+                    aria-label="delete"
+                    className={classes.margin}
+                    onClick={props.remove}
+                  >
                     <DeleteIcon fontSize="small" />
                   </IconButton>
                 </Typography>
               </Grid>
             </Grid>
             <Grid item>
-              <Typography variant="subtitle1">${props.product.price * props.quantity / 100}.00</Typography>
+              <Typography variant="subtitle1">
+                ${(props.product.price * props.quantity) / 100}.00
+              </Typography>
             </Grid>
           </Grid>
         </Grid>

@@ -1,6 +1,4 @@
-const router = require('express').Router();
-// const { NetworkCell } = require("@material-ui/icons");
-const { user } = require('pg/lib/defaults');
+const router = require("express").Router();
 const {
   models: { User, Order, OrderItem, Product },
 } = require('../db');
@@ -25,7 +23,7 @@ router.get('/', async (req, res, next) => {
       // users' passwords are encrypted, it won't help if we just
       // send everything to anyone who asks!
       // attributes: ["id", "username"],
-      attributes: ['id', 'username', 'email', 'userRole'],
+      attributes: ["id", "username", "email", "isAdmin"],
     });
     res.json(users);
   } catch (err) {
@@ -33,15 +31,29 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-// delete user
-router.delete('/:id', async (req, res, next) => {
+// PUT /api/users/:id
+router.put("/:id", async (req, res, next) => {
   try {
     const user = await User.findOne({
       where: {
         id: req.params.id,
       },
     });
-    console.log(user);
+    res.send(await user.update(req.body));
+  } catch (err) {
+    next(err);
+  }
+});
+
+// DELETE /api/users/:id
+router.delete("/:id", async (req, res, next) => {
+
+  try {
+    const user = await User.findOne({
+      where: {
+        id: req.params.id,
+      },
+    });
     await user.destroy();
     res.send(user);
   } catch (err) {
@@ -139,7 +151,7 @@ router.delete('/:userId/cart', async (req, res, next) => {
 });
 
 // checkout
-router.post('/:userId/checkout', async (req, res, next) => {
+router.post("/:userId/checkout", async (req, res, next) => {
   try {
     const order = await Order.findOne({
       where: {
