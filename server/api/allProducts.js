@@ -24,10 +24,10 @@ router.get("/:productId", async (req, res, next) => {
 
 router.post("/", async (req, res, next) => {
   try {
-    const user = req.user;
-    if (user.id !== req.body.userId) {
-      throw Error("not a valid user");
-    }
+    // const user = req.user;
+    // if (user.id !== req.body.userId) {
+    //   throw Error("not a valid user");
+    // }
     const order = await Order.findOne({
       where: {
         userId: req.body.userId,

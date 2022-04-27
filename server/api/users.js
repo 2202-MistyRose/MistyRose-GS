@@ -5,16 +5,16 @@ const {
 module.exports = router;
 const { requireToken, isAdmin } = require("../utilities");
 
-router.get("/", isAdmin, async (req, res, next) => {
-  try {
-    const token = req.headers.authorization;
-    const user = await User.findByToken(token);
-    req.user = user;
-    next();
-  } catch (err) {
-    next(err);
-  }
-};
+// router.get("/", isAdmin, async (req, res, next) => {
+//   try {
+//     const token = req.headers.authorization;
+//     const user = await User.findByToken(token);
+//     req.user = user;
+//     next();
+//   } catch (err) {
+//     next(err);
+//   }
+// })
 
 router.get('/', async (req, res, next) => {
   try {
@@ -62,13 +62,13 @@ router.delete("/:id", async (req, res, next) => {
 });
 
 // get signed-in user cart
-router.get('/:userId/cart', requireToken, async (req, res, next) => {
+router.get('/:userId/cart', async (req, res, next) => {
   try {
     // added this so it won't return another user's cart
-    const user = req.user;
-    if (user.id !== Number(req.params.userId)) {
-      throw Error("not a valid user");
-    }
+    // const user = req.user;
+    // if (user.id !== Number(req.params.userId)) {
+    //   throw Error("not a valid user");
+    // }
 
     const order = await Order.findOne({
       where: {
@@ -93,12 +93,14 @@ router.get('/:userId/cart', requireToken, async (req, res, next) => {
   }
 });
 
-router.put("/:userId/cart", requireToken, async (req, res, next) => {
+router.put("/:userId/cart", async (req, res, next) => {
   try {
-    const user = req.user;
-    if (user.id !== Number(req.params.userId)) {
-      throw Error("not a valid user");
-    }
+    console.log('req is', req)
+    // const user = req.user;
+    console.log(req.headers.authorization)
+    // if (user.id !== Number(req.params.userId)) {
+    //   throw Error("not a valid user");
+    // }
     const order = await Order.findOne({
       where: {
         userId: req.params.userId,
