@@ -1,4 +1,3 @@
-import { CodeSharp } from "@material-ui/icons";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
@@ -148,6 +147,7 @@ export const cartSlice = createSlice({
       state.status = "loading";
     },
     [fetchCart.fulfilled]: (state, action) => {
+      console.log("action is", action);
       state.cart = action.payload;
       state.status = "success";
     },

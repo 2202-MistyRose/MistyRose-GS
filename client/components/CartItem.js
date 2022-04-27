@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -7,10 +7,6 @@ import Typography from "@material-ui/core/Typography";
 import ButtonBase from "@material-ui/core/ButtonBase";
 import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/IconButton";
-import Icon from "@material-ui/core/Icon";
-import Box from "@material-ui/core/Box";
-import { useSelector, useDispatch } from "react-redux";
-import { fetchCart } from "../store/userCart";
 
 const useStyles = makeStyles((theme) => ({
   root: {
