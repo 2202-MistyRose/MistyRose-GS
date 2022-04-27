@@ -18,6 +18,7 @@ export const fetchCart = createAsyncThunk('cart/fetchCart',
           authorization: token
         }
       });
+      console.log('data is', data)
       return data
     } catch(err) {
       console.log(err)
@@ -29,21 +30,21 @@ export const addToCart = createAsyncThunk('cart/addToCart',
   async (id) => {
     try {
       const token = window.localStorage.getItem("token")
-      // console.log('token', token)
-      // guest?
-      if (!token) {
-        // let cart = window.localStorage.getItem("cart")
-        let {product} = id
-        let cart = window.localStorage.getItem("cart")
-        if (!cart) {
-          let arr = [product]
-          window.localStorage.setItem("cart", JSON.stringify(arr))
-        } else {
-          let arr = JSON.parse(cart)
-          arr.push(product)
-          window.localStorage.setItem("cart", JSON.stringify(arr))
-        }
-      } else {
+      // // console.log('token', token)
+      // // guest?
+      // if (!token) {
+      //   // let cart = window.localStorage.getItem("cart")
+      //   let {product} = id
+      //   let cart = window.localStorage.getItem("cart")
+      //   if (!cart) {
+      //     let arr = [product]
+      //     window.localStorage.setItem("cart", JSON.stringify(arr))
+      //   } else {
+      //     let arr = JSON.parse(cart)
+      //     arr.push(product)
+      //     window.localStorage.setItem("cart", JSON.stringify(arr))
+      //   }
+      // } else {
       const {product, user} = id;
       const prodId = product.id;
       const userId = user.id;
@@ -56,7 +57,6 @@ export const addToCart = createAsyncThunk('cart/addToCart',
         }
       })
       return created
-    }
     } catch(err) {
       console.log(err)
     }
@@ -138,6 +138,7 @@ export const cartSlice = createSlice({
       state.status = 'loading';
     },
     [fetchCart.fulfilled]: (state, action) => {
+      console.log('action is', action)
       state.cart = action.payload;
       state.status = 'success';
     },

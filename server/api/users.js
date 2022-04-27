@@ -76,6 +76,7 @@ router.get('/:userId/cart', async (req, res, next) => {
         status: true,
       },
     });
+    console.log('order is', order)
     const cartItems = await OrderItem.findAll({
       where: {
         orderId: order.id,
@@ -86,7 +87,7 @@ router.get('/:userId/cart', async (req, res, next) => {
         },
       ],
     });
-
+    console.log('cart items are', cartItems)
     res.json(cartItems);
   } catch (err) {
     next(err);

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -9,6 +9,9 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/IconButton";
 import Icon from "@material-ui/core/Icon";
 import Box from "@material-ui/core/Box";
+import {useDispatch, useSelector} from "react-redux"
+import { fetchCart } from "../store/userCart";
+import { useParams } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,7 +35,25 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function CartItem(props) {
+  const dispatch = useDispatch();
+  console.log('props', props)
   const classes = useStyles();
+  const {products} = useSelector((state) => state.products)
+  const product = products.filter((prod) => prod.id === props.productId)
+
+  // useEffect(() => {
+  //   dispatch(fetchCart(userId))
+  // }, [])
+  // console.log('products', products)
+  // console.log(product)
+  // console.log('props id', props.productId)
+  // console.log('actual prod', product[0])
+
+  if (!product.length) {
+    return (
+      <div>Loading...</div>
+    )
+  }
 
   return (
     <div className={classes.root}>
@@ -43,7 +64,7 @@ export default function CartItem(props) {
               <img
                 className={classes.img}
                 alt="complex"
-                src={props.product.imageUrl}
+                src={product[0].imageUrl}
               />
             </ButtonBase>
           </Grid>
@@ -51,10 +72,10 @@ export default function CartItem(props) {
             <Grid item xs container direction="column" spacing={2}>
               <Grid item xs>
                 <Typography gutterBottom variant="subtitle1">
-                  {props.product.name}
+                  {product[0].name}
                 </Typography>
                 <Typography variant="body2" gutterBottom>
-                  ${props.product.price}.00/item
+                  ${product[0].price}.00/item
                 </Typography>
                 <Typography variant="body2" color="textSecondary">
                   Quantity: {props.quantity}
@@ -81,7 +102,7 @@ export default function CartItem(props) {
             </Grid>
             <Grid item>
               <Typography variant="subtitle1">
-                ${props.product.price * props.quantity}.00
+                ${product[0].price * props.quantity}.00
               </Typography>
             </Grid>
           </Grid>
