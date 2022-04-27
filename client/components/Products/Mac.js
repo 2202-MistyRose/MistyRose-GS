@@ -1,20 +1,14 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { productsFetch } from "../../store/allProducts";
-import Typography from "@material-ui/core/Typography";
-import Container from "@material-ui/core/Container";
-// import Button from '@material-ui/core/Button';
-import { styled } from "@material-ui/core/styles";
-import { addToCart } from "../../store/userCart";
-import { Grid, makeStyles, Paper } from "@material-ui/core";
-import { Link } from "react-router-dom";
-
-const StyledContainer = styled(Container)({
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  justifyContent: "center",
-});
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { productsFetch } from '../../store/allProducts';
+import Typography from '@material-ui/core/Typography';
+import Container from '@material-ui/core/Container';
+import { styled } from '@material-ui/core/styles';
+import { addToCart } from '../../store/userCart';
+import { Grid, makeStyles, Paper } from '@material-ui/core';
+import { Link } from 'react-router-dom';
+// add mac specific banner
+// import Banner from './banner';
 
 export default function AllProducts() {
   const dispatch = useDispatch();
@@ -40,9 +34,8 @@ export default function AllProducts() {
   }, []);
 
   const { products } = useSelector((state) => state.products);
-  console.log(products, "products");
-  const mac = products.filter((product) => product.category === "Laptop");
-  // basic jsx, will edit with materialui
+  console.log(products, 'products');
+  const mac = products.filter((product) => product.category === 'Laptop');
   return (
     <div className="">
       <h2>Shop Phones!</h2>
@@ -60,29 +53,31 @@ export default function AllProducts() {
               return (
                 <Grid item xs={12} md={6}>
                   <Paper>
-                    <Link to={`/products/${product.id}`}>
-                      <div key={product.id} className="">
-                        <Grid item xs={12} md={6}>
+                    <div key={product.id} className="">
+                      <Grid item xs={12} md={6}>
+                        <Link to={`/products/${product.id}`}>
                           <Typography component="span" variant="h3">
                             {product.name}
                           </Typography>
-                        </Grid>
+                        </Link>
+                      </Grid>
+                      <Link to={`/products/${product.id}`}>
                         <Grid item xs={12} md={6}>
                           <img src={product.imageUrl} style={{ height: 300 }} />
                         </Grid>
-                        <Grid item xs={8}>
-                          <Typography component="span" variant="h6">
-                            {product.description}
-                          </Typography>
-                        </Grid>
-                        <button
-                          className="hero-banner-button"
-                          onClick={() => dispatch(addToCart({ product, user }))}
-                        >
-                          Add to Cart
-                        </button>
-                      </div>
-                    </Link>
+                      </Link>
+                      <Grid item xs={8}>
+                        <Typography component="span" variant="h6">
+                          {product.description}
+                        </Typography>
+                      </Grid>
+                      <button
+                        className="hero-banner-button"
+                        onClick={() => dispatch(addToCart({ product, user }))}
+                      >
+                        Add to Cart
+                      </button>
+                    </div>
                   </Paper>
                 </Grid>
               );

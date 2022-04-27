@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const {
   models: { User, Order, OrderItem, Product },
-} = require("../db");
+} = require('../db');
 module.exports = router;
 
 // making sure we keep track of which user is signed in
@@ -16,7 +16,7 @@ const requireToken = async (req, res, next) => {
   }
 };
 
-router.get("/", async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
     const users = await User.findAll({
       // explicitly select only the id and username fields - even though
@@ -47,6 +47,7 @@ router.put("/:id", async (req, res, next) => {
 
 // DELETE /api/users/:id
 router.delete("/:id", async (req, res, next) => {
+
   try {
     const user = await User.findOne({
       where: {
@@ -61,12 +62,12 @@ router.delete("/:id", async (req, res, next) => {
 });
 
 // get signed-in user cart
-router.get("/:userId/cart", requireToken, async (req, res, next) => {
+router.get('/:userId/cart', requireToken, async (req, res, next) => {
   try {
     // added this so it won't return another user's cart
     const user = req.user;
     if (user.id !== Number(req.params.userId)) {
-      throw Error("not valid user");
+      throw Error('not valid user');
     }
 
     const order = await Order.findOne({
@@ -92,7 +93,7 @@ router.get("/:userId/cart", requireToken, async (req, res, next) => {
   }
 });
 
-router.put("/:userId/cart", async (req, res, next) => {
+router.put('/:userId/cart', async (req, res, next) => {
   try {
     const order = await Order.findOne({
       where: {
@@ -118,7 +119,7 @@ router.put("/:userId/cart", async (req, res, next) => {
   }
 });
 
-router.delete("/:userId/cart", async (req, res, next) => {
+router.delete('/:userId/cart', async (req, res, next) => {
   try {
     const order = await Order.findOne({
       where: {

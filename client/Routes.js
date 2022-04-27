@@ -13,10 +13,6 @@ import Profile from "./components/CustomerProfile/Profile";
 import Phones from "./components/Products/Phones";
 import Mac from "./components/Products/Mac";
 
-/**
- * COMPONENT
- */
-
 const Routes = () => {
   const dispatch = useDispatch();
 

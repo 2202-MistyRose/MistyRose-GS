@@ -1,21 +1,12 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { productsFetch } from "../../store/allProducts";
-import Typography from "@material-ui/core/Typography";
-import Container from "@material-ui/core/Container";
-// import Button from '@material-ui/core/Button';
-import { styled } from "@material-ui/core/styles";
-import { addToCart } from "../../store/userCart";
-import { Grid, makeStyles, Paper } from "@material-ui/core";
-import { Link } from "react-router-dom";
-import Banner from "../banner";
-
-const StyledContainer = styled(Container)({
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  justifyContent: "center",
-});
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { productsFetch } from '../../store/allProducts';
+import Typography from '@material-ui/core/Typography';
+import Container from '@material-ui/core/Container';
+import { addToCart } from '../../store/userCart';
+import { Grid, makeStyles, Paper } from '@material-ui/core';
+import { Link } from 'react-router-dom';
+import Banner from '../Banner';
 
 export default function AllProducts() {
   const dispatch = useDispatch();
@@ -25,7 +16,6 @@ export default function AllProducts() {
       flexGrow: 1,
     },
     paper: {
-      // padding: 20,
       height: 250,
       width: 250,
     },
@@ -42,7 +32,6 @@ export default function AllProducts() {
 
   const { products } = useSelector((state) => state.products);
 
-  // basic jsx, will edit with materialui
   return (
     <div className="">
       <h2>Shop All Products!</h2>
