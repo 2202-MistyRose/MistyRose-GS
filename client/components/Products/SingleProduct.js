@@ -3,8 +3,10 @@ import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getSingleProduct } from '../../store/singleProduct';
 import { Grid, makeStyles } from '@material-ui/core';
+import { addToCart } from '../../store/userCart';
 
 function SingleProduct() {
+  const { user } = useSelector((state) => state.auth);
   const { productId } = useParams();
   const dispatch = useDispatch();
   const { product } = useSelector((state) => state.product);
@@ -40,6 +42,7 @@ function SingleProduct() {
             style={{ marginBottom: 50 }}
             type="button"
             className="hero-banner-button"
+            onClick={() => dispatch(addToCart({ product, user }))}
           >
             Buy
           </button>

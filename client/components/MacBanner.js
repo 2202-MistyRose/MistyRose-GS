@@ -8,7 +8,7 @@ const MacBanner = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getSingleProduct(5));
+    dispatch(getSingleProduct(3));
   }, []);
 
   return (

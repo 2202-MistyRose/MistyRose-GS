@@ -8,7 +8,7 @@ const AccBanner = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getSingleProduct(4));
+    dispatch(getSingleProduct(8));
   }, []);
 
   return (
