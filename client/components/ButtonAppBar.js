@@ -8,10 +8,11 @@ import { Link } from 'react-router-dom';
 import { logout } from '../store/auth.slice';
 import { Grid } from '@material-ui/core';
 
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    backgroundColor: '#1d1d1f',
+    backgroundColor: "#1d1d1f",
   },
   // love this stuff
   menuButton: {
@@ -25,7 +26,8 @@ const useStyles = makeStyles((theme) => ({
 export default function ButtonAppBar() {
   const classes = useStyles();
 
-  const { user } = useSelector((state) => state.auth);
+  const { user, success } = useSelector((state) => state.auth);
+  console.log("this is", user);
   const dispatch = useDispatch();
 
   return (
@@ -35,11 +37,11 @@ export default function ButtonAppBar() {
           <Link to="/">
             <img
               style={{
-                height: '2.5em',
-                width: '1.8em',
+                height: "2.5em",
+                width: "1.8em",
 
-                marginLeft: '2em',
-                marginRight: '13em',
+                marginLeft: "2em",
+                marginRight: "13em",
               }}
               src="/images/pearpng.png"
             />
@@ -102,7 +104,7 @@ export default function ButtonAppBar() {
                   </Link>
                 </Grid>
               </Grid>
-            </div>
+
           ) : (
             <div>
               <Grid container spacing={8}>

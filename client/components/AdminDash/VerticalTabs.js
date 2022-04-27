@@ -1,13 +1,13 @@
 import React from "react";
+import clsx from "clsx";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
 import Orders from "./Products/Orders";
 import CustomerList from "./Customers/CustomerList";
 import ProductList from "./Products/ProductList";
+import Chart from "./Chart";
+import { Grid, Paper, Box, Typography, Tabs, Tab } from "@material-ui/core";
+import AddProduct from "./Products/AddProduct";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -47,9 +47,10 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
     display: "flex",
-    height: 800,
+    height: 500,
   },
   tabs: {
+    minWidth: 180,
     borderRight: `1px solid ${theme.palette.divider}`,
   },
 }));
@@ -61,6 +62,8 @@ export default function VerticalTabs() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
     <div className={classes.root}>
@@ -75,10 +78,15 @@ export default function VerticalTabs() {
         <Tab label="Dashboard" {...a11yProps(0)} />
         <Tab label="Users" {...a11yProps(1)} />
         <Tab label="Products" {...a11yProps(2)} />
-        <Tab label="Order History" {...a11yProps(3)} />
+        <Tab label="Add Products" {...a11yProps(3)} />
+        <Tab label="Order History" {...a11yProps(4)} />
       </Tabs>
       <TabPanel value={value} index={0}>
-        Stuff
+        <Grid item>
+          <Paper className={fixedHeightPaper}>
+            <Chart />
+          </Paper>
+        </Grid>
       </TabPanel>
       <TabPanel value={value} index={1}>
         <CustomerList />
@@ -87,6 +95,9 @@ export default function VerticalTabs() {
         <ProductList />
       </TabPanel>
       <TabPanel value={value} index={3}>
+        <AddProduct />
+      </TabPanel>
+      <TabPanel value={value} index={4}>
         <Orders />
       </TabPanel>
     </div>

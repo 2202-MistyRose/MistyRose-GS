@@ -31,8 +31,8 @@ export default function AllProducts() {
   }, []);
 
   const { products } = useSelector((state) => state.products);
-  const phones = products.filter((product) => product.category === 'Phone');
-  console.log(phones, 'phones');
+  const phones = products.filter((product) => product.category === "Phone");
+  // basic jsx, will edit with material ui
   return (
     <div className="">
       <div className="">
