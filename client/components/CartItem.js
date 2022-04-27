@@ -35,19 +35,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function CartItem(props) {
-  const dispatch = useDispatch();
-  console.log('props', props)
   const classes = useStyles();
   const {products} = useSelector((state) => state.products)
   const product = products.filter((prod) => prod.id === props.productId)
-
-  // useEffect(() => {
-  //   dispatch(fetchCart(userId))
-  // }, [])
-  // console.log('products', products)
-  // console.log(product)
-  // console.log('props id', props.productId)
-  // console.log('actual prod', product[0])
 
   if (!product.length) {
     return (
