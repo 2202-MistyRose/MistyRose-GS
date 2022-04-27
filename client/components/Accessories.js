@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { productsFetch } from '../../store/allProducts';
+import { productsFetch } from '../store/allProducts';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-import { addToCart } from '../../store/userCart';
+import { addToCart } from '../store/userCart';
 import { Grid, makeStyles, Paper } from '@material-ui/core';
 import { Link } from 'react-router-dom';
-import MacBanner from '../MacBanner';
+import AccBanner from './AccBanner';
 
 export default function AllProducts() {
   const dispatch = useDispatch();
@@ -32,12 +32,14 @@ export default function AllProducts() {
 
   const { products } = useSelector((state) => state.products);
   console.log(products, 'products');
-  const mac = products.filter((product) => product.category === 'Laptop');
+  const accessories = products.filter(
+    (product) => product.category === 'Accessories'
+  );
   return (
     <div className="">
       <div className="">
         <Container maxWidth="lg">
-          <MacBanner />
+          <AccBanner />
           <Grid
             container
             className={classes.root}
@@ -46,7 +48,7 @@ export default function AllProducts() {
             alignItems="center"
             justifyContent="center"
           >
-            {mac.map((product) => {
+            {accessories.map((product) => {
               return (
                 <Grid item xs={12} md={6}>
                   <Paper>

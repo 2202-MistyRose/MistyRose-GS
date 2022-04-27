@@ -35,7 +35,6 @@ export default function AllProducts() {
   // basic jsx, will edit with material ui
   return (
     <div className="">
-      <h2>Shop Phones!</h2>
       <div className="">
         <Container maxWidth="lg">
           <Banner />

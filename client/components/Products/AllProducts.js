@@ -34,20 +34,12 @@ export default function AllProducts() {
 
   return (
     <div className="">
-      <h2>Shop All Products!</h2>
       <div className="">
         <Container maxWidth="lg">
           <Banner />
-          <Grid
-            container
-            className={classes.root}
-            spacing={4}
-            direction="row"
-            alignItems="center"
-            justify="center"
-          >
+          <Grid container spacing={4}>
             {products.map((product) => (
-              <Grid item xs={12} md={6}>
+              <Grid item xs={12} md={6} key={product.id}>
                 <Paper>
                   <Link to={`/products/${product.id}`}>
                     <div key={product.id} className="">
