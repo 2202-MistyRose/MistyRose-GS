@@ -19,8 +19,8 @@ const Hero = () => {
         <Banner />
 
         <div className="products-heading">
-          <h2>Our products are rated #1!!</h2>
-          <p>join the team..</p>
+          <h2>We're not an apple knockoff ... </h2>
+          {/* <p>join the team..</p> */}
         </div>
 
         <div className="products-container">

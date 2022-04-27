@@ -6,10 +6,7 @@ import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import ButtonBase from "@material-ui/core/ButtonBase";
 import DeleteIcon from "@material-ui/icons/Delete";
-import IconButton from '@material-ui/core/IconButton';
-import Icon from '@material-ui/core/Icon';
-import Box from "@material-ui/core/Box";
-
+import IconButton from "@material-ui/core/IconButton";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,17 +31,23 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CartItem(props) {
   const classes = useStyles();
+  console.log("this is props", props);
+  const { product } = props;
+
+  if (!product) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <Grid container spacing={2} style={{marginBottom: '5px'}}>
+        <Grid container spacing={2} style={{ marginBottom: "5px" }}>
           <Grid item>
             <ButtonBase className={classes.image}>
               <img
                 className={classes.img}
                 alt="complex"
-                src={props.product.imageUrl}
+                src={product.imageUrl}
               />
             </ButtonBase>
           </Grid>
@@ -52,10 +55,10 @@ export default function CartItem(props) {
             <Grid item xs container direction="column" spacing={2}>
               <Grid item xs>
                 <Typography gutterBottom variant="subtitle1">
-                  {props.product.name}
+                  {product.name}
                 </Typography>
                 <Typography variant="body2" gutterBottom>
-                  ${props.product.price / 100}.00/item
+                  ${product.price}.00/item
                 </Typography>
                 <Typography variant="body2" color="textSecondary">
                   Quantity: {props.quantity}
@@ -63,19 +66,27 @@ export default function CartItem(props) {
               </Grid>
               <Grid item>
                 <Typography variant="body2" style={{ cursor: "pointer" }}>
-                  {/* <Icon color="primary">add_circle</Icon> */}
-                  {/* {props.quantity > 1 ? <Button onClick={props.decrement}>-</Button> : null} */}
-                  {props.quantity > 1 ? <Button onClick={props.decrement}>-</Button> : <Button disabled={true}>-</Button>}
+                  {props.quantity > 1 ? (
+                    <Button onClick={props.decrement}>-</Button>
+                  ) : (
+                    <Button disabled={true}>-</Button>
+                  )}
 
                   <Button onClick={props.increment}>+</Button>
-                  <IconButton aria-label="delete" className={classes.margin} onClick={props.remove} >
+                  <IconButton
+                    aria-label="delete"
+                    className={classes.margin}
+                    onClick={props.remove}
+                  >
                     <DeleteIcon fontSize="small" />
                   </IconButton>
                 </Typography>
               </Grid>
             </Grid>
             <Grid item>
-              <Typography variant="subtitle1">${props.product.price * props.quantity / 100}.00</Typography>
+              <Typography variant="subtitle1">
+                ${product.price * props.quantity}.00
+              </Typography>
             </Grid>
           </Grid>
         </Grid>
@@ -83,5 +94,3 @@ export default function CartItem(props) {
     </div>
   );
 }
-
-// style={{marginLeft: '100px'}}

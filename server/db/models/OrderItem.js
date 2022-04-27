@@ -11,6 +11,4 @@ const OrderItem = db.define("orderItem", {
   },
 });
 
-// might need to calculate here on total price
-
 module.exports = OrderItem;

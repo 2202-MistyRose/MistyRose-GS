@@ -1,17 +1,17 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import { Link } from 'react-router-dom';
-import { logout } from '../store/auth.slice';
-import { Grid } from '@material-ui/core';
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { makeStyles } from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import { Link } from "react-router-dom";
+import { logout } from "../store/auth.slice";
+import { Grid } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    backgroundColor: '#1d1d1f',
+    backgroundColor: "#1d1d1f",
   },
   // love this stuff
   menuButton: {
@@ -35,11 +35,11 @@ export default function ButtonAppBar() {
           <Link to="/">
             <img
               style={{
-                height: '2.5em',
-                width: '1.8em',
+                height: "2.5em",
+                width: "1.8em",
 
-                marginLeft: '2em',
-                marginRight: '13em',
+                marginLeft: "2em",
+                marginRight: "13em",
               }}
               src="/images/pearpng.png"
             />
@@ -61,6 +61,7 @@ export default function ButtonAppBar() {
               <Grid container spacing={1}>
                 <Grid item xs={6} md={4}>
                   <Link to={user.isAdmin ? '/admin' : '/profile'}>
+
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       height="24px"
