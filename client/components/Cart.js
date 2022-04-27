@@ -39,13 +39,6 @@ export default function Cart() {
     dispatch(updateQuantity({ item, userId }));
   }
 
-  const totalPrice =
-    cart.length === 0
-      ? 0
-      : cart.reduce((total, item) => {
-          return total + item.product.price * item.quantity;
-        }, 0);
-
   return (
     <div className="cart">
       {cart.length ? (
@@ -71,9 +64,9 @@ export default function Cart() {
       })}
       {cart.length ? (
         <React.Fragment>
-          <Typography style={{ margin: "15px" }} align="center">
+          {/* <Typography style={{ margin: "15px" }} align="center">
             Subtotal: ${totalPrice === 0 ? 0 : totalPrice}.00
-          </Typography>
+          </Typography> */}
 
           <Box textAlign="right">
             <Button
