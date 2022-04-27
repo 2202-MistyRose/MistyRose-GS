@@ -1,13 +1,12 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import { Link } from 'react-router-dom';
-import { logout } from '../store/auth.slice';
-import { Grid } from '@material-ui/core';
-
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { makeStyles } from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import { Link } from "react-router-dom";
+import { logout } from "../store/auth.slice";
+import { Grid } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -62,7 +61,7 @@ export default function ButtonAppBar() {
             <div className={classes.root}>
               <Grid container spacing={1}>
                 <Grid item xs={6} md={4}>
-                  <Link to={user.userRole === 'Admin' ? '/admin' : '/profile'}>
+                  <Link to={user.isAdmin ? "/admin" : "/profile"}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       height="24px"
@@ -104,7 +103,7 @@ export default function ButtonAppBar() {
                   </Link>
                 </Grid>
               </Grid>
-
+            </div>
           ) : (
             <div>
               <Grid container spacing={8}>
