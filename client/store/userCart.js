@@ -1,3 +1,4 @@
+import { CodeSharp } from "@material-ui/icons";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
@@ -27,11 +28,36 @@ export const fetchCart = createAsyncThunk('cart/fetchCart',
 export const addToCart = createAsyncThunk('cart/addToCart',
   async (id) => {
     try {
+      const token = window.localStorage.getItem("token")
+      // console.log('token', token)
+      // guest?
+      if (!token) {
+        // let cart = window.localStorage.getItem("cart")
+        let {product} = id
+        let cart = window.localStorage.getItem("cart")
+        if (!cart) {
+          let arr = [product]
+          window.localStorage.setItem("cart", JSON.stringify(arr))
+        } else {
+          console.log(cart)
+          let arr = JSON.parse(cart)
+          arr.push(product)
+          window.localStorage.setItem("cart", JSON.stringify(arr))
+        }
+      } else {
       const {product, user} = id;
       const prodId = product.id;
       const userId = user.id;
-      const {data: created} = await axios.post(`/api/products`, {prodId, userId})
+      // const {data: created} = await axios.post(`/api/products`, {prodId, userId})
+      const {data: created} = await axios.post(`/api/products`, {
+        prodId,
+        userId,}, {
+        headers: {
+          authorization: token
+        }
+      })
       return created
+    }
     } catch(err) {
       console.log(err)
     }
@@ -41,10 +67,22 @@ export const addToCart = createAsyncThunk('cart/addToCart',
 export const removeFromCart = createAsyncThunk('/cart/removeFromCart',
   async (itemObj) => {
     try {
+      const token = window.localStorage.getItem("token")
       const {item, userId} = itemObj;
-      const {data: deleted} = await axios.delete(`/api/users/${userId}/cart`, {data: {
+      // const {data: deleted} = await axios.delete(`/api/users/${userId}/cart`, {
+      //   headers: {
+      //     authorization: token
+      //   }
+      // },
+      // {data: {
+      //   item: item
+      // }}
+      // )
+      const {data: deleted} = await axios.delete(`/api/users/${userId}/cart`,
+      {data: {
         item: item
-      }})
+      }}
+      )
       return deleted
     } catch(err) {
       console.log(err)
@@ -55,8 +93,13 @@ export const removeFromCart = createAsyncThunk('/cart/removeFromCart',
 export const updateQuantity = createAsyncThunk('/cart/increment',
   async (itemObj) => {
     try {
+      const token = window.localStorage.getItem("token");
       const {item, userId} = itemObj;
-      const {data: updated} = await axios.put(`/api/users/${userId}/cart`, item);
+      const {data: updated} = await axios.put(`/api/users/${userId}/cart`, item, {
+        headers: {
+          authorization: token
+        }
+      });
       return updated
     } catch (err) {
       console.log(err)
@@ -78,9 +121,7 @@ export const clearCart = createAsyncThunk('cart/increment',
 export const checkout = createAsyncThunk('cart/checkout',
   async (info) => {
     try {
-      // pass in the cart to get items instead of searching backend
       const {userId, cart} = info;
-      console.log('checkout')
       const {data: updated} = await axios.post(`/api/users/${userId}/checkout`, cart)
       return updated
     } catch(err) {
@@ -120,8 +161,6 @@ export const cartSlice = createSlice({
       state.status = 'loading';
     },
     [removeFromCart.fulfilled]: (state, action) => {
-      // console.log('action is:', action.meta.arg)
-      // state.cart = state.cart.filter(item => item.productId !== action.payload.productId)
       state.cart = state.cart.filter(item => item.productId != action.meta.arg.item.productId)
       state.status = 'success';
     },
@@ -133,8 +172,6 @@ export const cartSlice = createSlice({
       state.status = 'loading';
     },
     [updateQuantity.fulfilled]: (state, action) => {
-      console.log('action payload is', action)
-      // state.cart = action.payload;
       state.cart = state.cart.reduce((accum, current) => {
         if (current.productId === action.meta.arg.item.productId) {
           if (action.meta.arg.item.quantity > 0) { // if it becomes 0 don't return it

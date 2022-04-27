@@ -3,9 +3,9 @@ const {
   models: { User, Order, OrderItem, Product },
 } = require('../db');
 module.exports = router;
+const { requireToken, isAdmin } = require("../utilities");
 
-// making sure we keep track of which user is signed in
-const requireToken = async (req, res, next) => {
+router.get("/", isAdmin, async (req, res, next) => {
   try {
     const token = req.headers.authorization;
     const user = await User.findByToken(token);
@@ -67,7 +67,7 @@ router.get('/:userId/cart', requireToken, async (req, res, next) => {
     // added this so it won't return another user's cart
     const user = req.user;
     if (user.id !== Number(req.params.userId)) {
-      throw Error('not valid user');
+      throw Error("not a valid user");
     }
 
     const order = await Order.findOne({
@@ -93,8 +93,12 @@ router.get('/:userId/cart', requireToken, async (req, res, next) => {
   }
 });
 
-router.put('/:userId/cart', async (req, res, next) => {
+router.put("/:userId/cart", requireToken, async (req, res, next) => {
   try {
+    const user = req.user;
+    if (user.id !== Number(req.params.userId)) {
+      throw Error("not a valid user");
+    }
     const order = await Order.findOne({
       where: {
         userId: req.params.userId,
@@ -108,12 +112,7 @@ router.put('/:userId/cart', async (req, res, next) => {
         productId: req.body.productId,
       },
     });
-    // this next line may be useless, updating front end where user can't decrement if they have one product
-    if (cartItem.quantity === 0) {
-      res.json(await cartItem.destroy());
-    } else {
-      res.json(await cartItem.update({ ...req.body }));
-    }
+    res.json(await cartItem.update({ ...req.body }));
   } catch (err) {
     next(err);
   }
@@ -121,12 +120,15 @@ router.put('/:userId/cart', async (req, res, next) => {
 
 router.delete('/:userId/cart', async (req, res, next) => {
   try {
+    // const user = req.user;
+    // if (user.id !== Number(req.params.userId)) {
+    //   throw Error('not a valid user')
+    // }
     const order = await Order.findOne({
       where: {
         userId: req.params.userId,
       },
     });
-
     if (req.body.item) {
       // removing from cart
       const item = await OrderItem.findOne({

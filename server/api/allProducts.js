@@ -2,7 +2,7 @@ const Order = require("../db/models/Order");
 const Product = require("../db/models/Product");
 const router = require("express").Router();
 const OrderItem = require("../db/models/OrderItem");
-const { RestaurantTwoTone } = require("@material-ui/icons");
+const { requireToken, isAdmin } = require("../utilities");
 
 router.get("/", async (req, res, next) => {
   try {
@@ -24,6 +24,10 @@ router.get("/:productId", async (req, res, next) => {
 
 router.post("/", async (req, res, next) => {
   try {
+    const user = req.user;
+    if (user.id !== req.body.userId) {
+      throw Error("not a valid user");
+    }
     const order = await Order.findOne({
       where: {
         userId: req.body.userId,

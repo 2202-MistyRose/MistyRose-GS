@@ -24,7 +24,8 @@ const useStyles = makeStyles((theme) => ({
 export default function ButtonAppBar() {
   const classes = useStyles();
 
-  const { user } = useSelector((state) => state.auth);
+  const { user, success } = useSelector((state) => state.auth);
+  console.log("this is", user);
   const dispatch = useDispatch();
 
   return (

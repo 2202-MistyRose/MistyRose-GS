@@ -7,8 +7,8 @@ import Typography from "@material-ui/core/Typography";
 import ButtonBase from "@material-ui/core/ButtonBase";
 import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/IconButton";
-import AddIcon from "@material-ui/icons/Add";
-import RemoveIcon from "@material-ui/icons/Remove";
+import Icon from "@material-ui/core/Icon";
+import Box from "@material-ui/core/Box";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -54,7 +54,7 @@ export default function CartItem(props) {
                   {props.product.name}
                 </Typography>
                 <Typography variant="body2" gutterBottom>
-                  ${props.product.price / 100}.00/item
+                  ${props.product.price}.00/item
                 </Typography>
                 <Typography variant="body2" color="textSecondary">
                   Quantity: {props.quantity}
@@ -62,21 +62,13 @@ export default function CartItem(props) {
               </Grid>
               <Grid item>
                 <Typography variant="body2" style={{ cursor: "pointer" }}>
-                  {/* <Icon color="primary">add_circle</Icon> */}
-                  {/* {props.quantity > 1 ? <Button onClick={props.decrement}>-</Button> : null} */}
                   {props.quantity > 1 ? (
-                    <Button onClick={props.decrement}>
-                      <RemoveIcon />
-                    </Button>
+                    <Button onClick={props.decrement}>-</Button>
                   ) : (
-                    <Button disabled={true}>
-                      <RemoveIcon />
-                    </Button>
+                    <Button disabled={true}>-</Button>
                   )}
 
-                  <Button onClick={props.increment}>
-                    <AddIcon />
-                  </Button>
+                  <Button onClick={props.increment}>+</Button>
                   <IconButton
                     aria-label="delete"
                     className={classes.margin}
@@ -89,7 +81,7 @@ export default function CartItem(props) {
             </Grid>
             <Grid item>
               <Typography variant="subtitle1">
-                ${(props.product.price * props.quantity) / 100}.00
+                ${props.product.price * props.quantity}.00
               </Typography>
             </Grid>
           </Grid>
@@ -98,5 +90,3 @@ export default function CartItem(props) {
     </div>
   );
 }
-
-// style={{marginLeft: '100px'}}
