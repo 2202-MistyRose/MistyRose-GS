@@ -39,12 +39,14 @@ export default function Cart() {
     dispatch(updateQuantity({ item, userId }));
   }
 
-  const totalPrice =
-    cart.length === 0
-      ? 0
-      : cart.reduce((total, item) => {
-          return total + item.product.price * item.quantity;
-        }, 0);
+  // const totalPrice =
+  //   cart.length === 0
+  //     ? 0
+  //     : cart.reduce((total, item) => {
+  //         return total + item.product.price * item.quantity;
+  //       }, 0);
+
+  console.log("this is cart", cart);
 
   return (
     <div className="cart">
@@ -72,7 +74,7 @@ export default function Cart() {
       {cart.length ? (
         <React.Fragment>
           <Typography style={{ margin: "15px" }} align="center">
-            Subtotal: ${totalPrice === 0 ? 0 : totalPrice}.00
+            {/* Subtotal: ${totalPrice === 0 ? 0 : totalPrice}.00 */}
           </Typography>
 
           <Box textAlign="right">

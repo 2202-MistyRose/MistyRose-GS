@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const {
   models: { User, Order, OrderItem, Product },
-} = require('../db');
+} = require("../db");
 module.exports = router;
 const { requireToken, isAdmin } = require("../utilities");
 
@@ -16,7 +16,7 @@ const { requireToken, isAdmin } = require("../utilities");
 //   }
 // })
 
-router.get('/', async (req, res, next) => {
+router.get("/", async (req, res, next) => {
   try {
     const users = await User.findAll({
       // explicitly select only the id and username fields - even though
@@ -26,6 +26,48 @@ router.get('/', async (req, res, next) => {
       attributes: ["id", "username", "email", "isAdmin"],
     });
     res.json(users);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.post("/:userId/cart", async (req, res, next) => {
+  try {
+    // const user = req.user;
+    // if (user.id !== req.body.userId) {
+    //   throw Error("not a valid user");
+    // }
+    const order = await Order.findOne({
+      where: {
+        userId: req.body.userId,
+        status: true,
+      },
+    });
+    const product = await Product.findOne({
+      where: {
+        id: req.body.prodId,
+      },
+    });
+    // see if the item already exists in the table
+    const cartItem = await OrderItem.findOne({
+      where: {
+        productId: req.body.prodId,
+        orderId: order.id,
+      },
+    });
+
+    if (cartItem) {
+      await cartItem.update({ ...cartItem, quantity: cartItem.quantity + 1 });
+      res.send(cartItem);
+    } else {
+      const newItem = await OrderItem.create({
+        quantity: 1,
+        totalPrice: product.price,
+        productId: product.id,
+        orderId: order.id,
+      });
+      res.send(newItem);
+    }
   } catch (err) {
     next(err);
   }
@@ -47,7 +89,6 @@ router.put("/:id", async (req, res, next) => {
 
 // DELETE /api/users/:id
 router.delete("/:id", async (req, res, next) => {
-
   try {
     const user = await User.findOne({
       where: {
@@ -62,7 +103,7 @@ router.delete("/:id", async (req, res, next) => {
 });
 
 // get signed-in user cart
-router.get('/:userId/cart', async (req, res, next) => {
+router.get("/:userId/cart", async (req, res, next) => {
   try {
     // added this so it won't return another user's cart
     // const user = req.user;
@@ -95,9 +136,9 @@ router.get('/:userId/cart', async (req, res, next) => {
 
 router.put("/:userId/cart", async (req, res, next) => {
   try {
-    console.log('req is', req)
+    console.log("req is", req);
     // const user = req.user;
-    console.log(req.headers.authorization)
+    console.log(req.headers.authorization);
     // if (user.id !== Number(req.params.userId)) {
     //   throw Error("not a valid user");
     // }
@@ -120,7 +161,7 @@ router.put("/:userId/cart", async (req, res, next) => {
   }
 });
 
-router.delete('/:userId/cart', async (req, res, next) => {
+router.delete("/:userId/cart", async (req, res, next) => {
   try {
     // const user = req.user;
     // if (user.id !== Number(req.params.userId)) {

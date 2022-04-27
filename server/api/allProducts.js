@@ -22,48 +22,6 @@ router.get("/:productId", async (req, res, next) => {
   }
 });
 
-router.post("/", async (req, res, next) => {
-  try {
-    // const user = req.user;
-    // if (user.id !== req.body.userId) {
-    //   throw Error("not a valid user");
-    // }
-    const order = await Order.findOne({
-      where: {
-        userId: req.body.userId,
-        status: true,
-      },
-    });
-    const product = await Product.findOne({
-      where: {
-        id: req.body.prodId,
-      },
-    });
-    // see if the item already exists in the table
-    const cartItem = await OrderItem.findOne({
-      where: {
-        productId: req.body.prodId,
-        orderId: order.id,
-      },
-    });
-
-    if (cartItem) {
-      await cartItem.update({ ...cartItem, quantity: cartItem.quantity + 1 });
-      res.send(cartItem);
-    } else {
-      const newItem = await OrderItem.create({
-        quantity: 1,
-        totalPrice: product.price,
-        productId: product.id,
-        orderId: order.id,
-      });
-      res.send(newItem);
-    }
-  } catch (err) {
-    next(err);
-  }
-});
-
 // POST /api/products/admin
 router.post("/admin", async (req, res, next) => {
   try {

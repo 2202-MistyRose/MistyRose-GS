@@ -1,18 +1,17 @@
-import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { getSingleProduct } from '../../store/singleProduct';
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { getSingleProduct } from "../../store/singleProduct";
 
-import { addToCart } from '../../store/userCart';
-import Footer from '../Footer';
-import { Grid, makeStyles, Button } from '@material-ui/core';
+import { addToCart } from "../../store/userCart";
+import Footer from "../Footer";
+import { Grid, makeStyles, Button } from "@material-ui/core";
 
 function SingleProduct() {
   const { productId } = useParams();
   const dispatch = useDispatch();
   const { product } = useSelector((state) => state.product);
   const { user } = useSelector((state) => state.auth);
-  console.log('user', user)
 
   const useStyles = makeStyles((theme) => ({
     root: {
@@ -43,7 +42,11 @@ function SingleProduct() {
           <h1>{product.name}</h1>
           <h2>from ${product.price} or $xx.xx/mo. for 24 mo.</h2>
 
-          <Button onClick={() => dispatch(addToCart({product, user}))} color="primary" variant='contained'>
+          <Button
+            onClick={() => dispatch(addToCart({ product, user }))}
+            color="primary"
+            variant="contained"
+          >
             Buy
           </Button>
           <h3>{product.rating}</h3>
@@ -51,7 +54,6 @@ function SingleProduct() {
           <h4>stock: {product.stock}</h4>
           <p>category:{product.category}</p>
         </Grid>
-
       </Grid>
     </>
   );

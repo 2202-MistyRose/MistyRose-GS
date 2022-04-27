@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -9,6 +9,8 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/IconButton";
 import Icon from "@material-ui/core/Icon";
 import Box from "@material-ui/core/Box";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchCart } from "../store/userCart";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,6 +35,12 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CartItem(props) {
   const classes = useStyles();
+  console.log("this is props", props);
+  const { product } = props;
+
+  if (!product) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className={classes.root}>
@@ -43,7 +51,7 @@ export default function CartItem(props) {
               <img
                 className={classes.img}
                 alt="complex"
-                src={props.product.imageUrl}
+                src={product.imageUrl}
               />
             </ButtonBase>
           </Grid>
@@ -51,10 +59,10 @@ export default function CartItem(props) {
             <Grid item xs container direction="column" spacing={2}>
               <Grid item xs>
                 <Typography gutterBottom variant="subtitle1">
-                  {props.product.name}
+                  {product.name}
                 </Typography>
                 <Typography variant="body2" gutterBottom>
-                  ${props.product.price}.00/item
+                  ${product.price}.00/item
                 </Typography>
                 <Typography variant="body2" color="textSecondary">
                   Quantity: {props.quantity}
@@ -81,7 +89,7 @@ export default function CartItem(props) {
             </Grid>
             <Grid item>
               <Typography variant="subtitle1">
-                ${props.product.price * props.quantity}.00
+                ${product.price * props.quantity}.00
               </Typography>
             </Grid>
           </Grid>
