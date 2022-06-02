@@ -8,7 +8,7 @@ iPear is an e-commerce application inspired by Apple products. This project was 
 
 - User authentication (login and signup)
 - User cart (adding items, decrementing/incrementing, clearing the cart)
-- User Checkout (empties the user cart and decreases items in stock)
+- User Checkout 
 - Home page display
 - Single product pages
 - Product category pages
