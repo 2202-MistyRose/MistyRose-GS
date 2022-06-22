@@ -2,7 +2,7 @@
 
 Live Demo: https://mistyrose-ipear.herokuapp.com/home 
 
-iPear is an e-commerce application inspired by Apple products. This project was built over a 10-day period at Fullstack Academy with a team a four members. Users are able to navigate throughout the site and add items to their cart, as well as checkout.
+iPear is an e-commerce application inspired by Apple products. This project was built over a 10-day period at Fullstack Academy with a team of four members. Users are able to navigate throughout the site and add items to their cart, as well as checkout.
 
 ## Features
 
