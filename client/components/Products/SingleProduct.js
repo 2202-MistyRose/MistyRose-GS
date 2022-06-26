@@ -51,7 +51,7 @@ function SingleProduct() {
           <h3>{product.rating}</h3>
           <h2 style={{ marginBottom: 30 }}>{product.description}</h2>
           <h4>stock: {product.stock}</h4>
-          <p>category:{product.category}</p>
+          <p>category: {product.category}</p>
         </Grid>
       </Grid>
     </>
