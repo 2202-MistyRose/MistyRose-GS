@@ -7,6 +7,7 @@ import { addToCart } from '../../store/userCart';
 import { Grid, makeStyles, Paper } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import Banner from '../Banner';
+import Button from '@material-ui/core/Button';
 
 export default function AllProducts() {
   const dispatch = useDispatch();
@@ -68,12 +69,13 @@ export default function AllProducts() {
                           {product.description}
                         </Typography>
                       </Grid>
-                      <button
-                        className="hero-banner-button"
+                      <Button
+                        color='primary'
+                        variant='contained'
                         onClick={() => dispatch(addToCart({ product, user }))}
                       >
                         Add to Cart
-                      </button>
+                      </Button>
                     </div>
                   </Paper>
                 </Grid>

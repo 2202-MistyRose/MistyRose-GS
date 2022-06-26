@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { productsFetch } from '../../store/allProducts';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
+import Button from '@material-ui/core/Button';
 import { addToCart } from '../../store/userCart';
 import { Grid, makeStyles, Paper } from '@material-ui/core';
 import { Link } from 'react-router-dom';
@@ -31,7 +32,6 @@ export default function AllProducts() {
   }, []);
 
   const { products } = useSelector((state) => state.products);
-  console.log(products, 'products');
   const mac = products.filter((product) => product.category === 'Laptop');
   return (
     <div className="">
@@ -48,9 +48,9 @@ export default function AllProducts() {
           >
             {mac.map((product) => {
               return (
-                <Grid item xs={12} md={6}>
+                <Grid item xs={12} md={6} key={product.id}>
                   <Paper>
-                    <div key={product.id} className="">
+                    <div className="">
                       <Grid item xs={12} md={12}>
                         <Link to={`/products/${product.id}`}>
                           <Typography component="span" variant="h3">
@@ -68,12 +68,13 @@ export default function AllProducts() {
                           {product.description}
                         </Typography>
                       </Grid>
-                      <button
-                        className="hero-banner-button"
+                      <Button
+                        color='primary'
+                        variant='contained'
                         onClick={() => dispatch(addToCart({ product, user }))}
                       >
                         Add to Cart
-                      </button>
+                      </Button>
                     </div>
                   </Paper>
                 </Grid>

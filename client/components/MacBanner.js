@@ -8,16 +8,18 @@ const MacBanner = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getSingleProduct(3));
+    dispatch(getSingleProduct(4));
   }, []);
 
   return (
     <div style={{ marginBottom: '50px' }} className="hero-banner-container">
       <div>
         <h4 className="product-style">{`$${product.price}`}</h4>
-        <h3>#1 Laptop on the market!</h3>
+        <h3 z-index="2">#1 Laptop on the market!</h3>
         <h1>{product.name}</h1>
         <img
+          display="block"
+          z-index="-1"
           src={product.imageUrl}
           alt={product.name}
           className="hero-banner-image"

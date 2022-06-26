@@ -22,7 +22,6 @@ export const productsFetch = createAsyncThunk(
 export const createProduct = createAsyncThunk(
   "products/createProduct",
   async (formInfo, { rejectWithValue }) => {
-    console.log(formInfo);
     try {
       const res = await axios.post("/api/products/admin", formInfo);
       return res.data;

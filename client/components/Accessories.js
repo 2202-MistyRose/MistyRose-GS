@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { productsFetch } from '../store/allProducts';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
+import Button from '@material-ui/core/Button';
 import { addToCart } from '../store/userCart';
 import { Grid, makeStyles, Paper } from '@material-ui/core';
 import { Link } from 'react-router-dom';
@@ -70,12 +71,13 @@ export default function AllProducts() {
                           {product.description}
                         </Typography>
                       </Grid>
-                      <button
-                        className="hero-banner-button"
+                      <Button
+                        color='primary'
+                        variant='contained'
                         onClick={() => dispatch(addToCart({ product, user }))}
                       >
                         Add to Cart
-                      </button>
+                      </Button>
                     </div>
                   </Paper>
                 </Grid>
