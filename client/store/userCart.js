@@ -23,10 +23,8 @@ export const fetchCart = createAsyncThunk("cart/fetchCart", async (id) => {
 });
 
 export const addToCart = createAsyncThunk("cart/addToCart", async (id) => {
-  console.log("this is passed to redux", id);
   try {
     const token = window.localStorage.getItem("token");
-    // console.log('token', token)
     // guest?
     if (!token) {
       // let cart = window.localStorage.getItem("cart")
@@ -147,7 +145,6 @@ export const cartSlice = createSlice({
       state.status = "loading";
     },
     [fetchCart.fulfilled]: (state, action) => {
-      console.log("action is", action);
       state.cart = action.payload;
       state.status = "success";
     },

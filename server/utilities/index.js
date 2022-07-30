@@ -1,5 +1,6 @@
 const User = require("../db/models/User");
 
+// adding middleware for api security
 const requireToken = async (req, res, next) => {
   try {
     const token = req.headers.authorization;

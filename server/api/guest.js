@@ -8,7 +8,7 @@ router.post('/guest/checkout', (req, res, next) => {
     const cart = req.body;
     cart.forEach(async (item) => {
       const product = await Product.findByPk(item.id);
-      await product.update({...product, stock: product.stock - item.})
+      await product.update({...product, stock: product.stock - item.quantity})
     })
   } catch(err) {
     next (err)

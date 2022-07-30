@@ -117,7 +117,6 @@ router.get("/:userId/cart", async (req, res, next) => {
         status: true,
       },
     });
-    console.log('order is', order)
     const cartItems = await OrderItem.findAll({
       where: {
         orderId: order.id,
@@ -128,7 +127,6 @@ router.get("/:userId/cart", async (req, res, next) => {
         },
       ],
     });
-    console.log('cart items are', cartItems)
     res.json(cartItems);
   } catch (err) {
     next(err);
@@ -137,9 +135,7 @@ router.get("/:userId/cart", async (req, res, next) => {
 
 router.put("/:userId/cart", async (req, res, next) => {
   try {
-    console.log("req is", req);
     // const user = req.user;
-    console.log(req.headers.authorization);
     // if (user.id !== Number(req.params.userId)) {
     //   throw Error("not a valid user");
     // }
